@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+
+const host = window.location.hostname === "localhost" ? 'http://kimmyungsa.us-east-2.elasticbeanstalk.com' : "";
 //axios 인스턴스 생성
 const api = axios.create({
-    baseURL: `${process.env.BACKEND_PROXY}`,//API baseURL
-    timeout:1000,
+    baseURL: host,//API baseURL
+    timeout:5000,
     headers:{
         'Content-Type': 'application/json', //응답헤더, json 형식
     }
