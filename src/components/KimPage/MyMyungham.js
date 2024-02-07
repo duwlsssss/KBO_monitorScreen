@@ -60,6 +60,17 @@ const addCard=async(event)=>{
 
       if (status === 200) {
           console.log('성공');
+          //입력 후 input 값 초기화
+          setName('');
+          setEngName('');
+          setMajor('');
+          setStudentNum('');
+          setEmail('');
+          setIg('');
+          setSchool('');
+          setSession('');
+          setMBTI('');
+
       } else {
           throw new Error('카드를 추가할 수 없습니다.');
       }
