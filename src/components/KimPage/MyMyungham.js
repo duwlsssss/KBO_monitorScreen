@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useRef }  from "react";
 import Header from "./Header";
 import styled from 'styled-components';
 import { useEffect, useState } from "react"
@@ -15,7 +15,10 @@ import SessionSelector from "./Selector.js/sessionSelector";
 
 
 function MyMyungham(){
- 
+
+  const [recentData, setRecentData] = useState(null);
+
+
   const [name, setName] = useState(''); //이름
   const [engName, setEngName] = useState (''); //영문 네임 
   const [major, setMajor]= useState (''); //전공 
@@ -70,14 +73,67 @@ const addCard=async(event)=>{
           setSchool('');
           setSession('');
           setMBTI('');
-
       } else {
           throw new Error('카드를 추가할 수 없습니다.');
       }
   } catch (err) {
       console.error('에러', err);
   }
+
+   // 가장 최근에 저장된 데이터를 가져와서 상태 업데이트
+  const latestData = await getLatestData(); 
+  setRecentData(latestData);
+
+
+  // 데이터 저장 후, 최근 데이터를 부모 창으로 전송
+  window.parent.postMessage({
+    type: 'recentData',
+    data: latestData,
+  }, '*');
+
+
+
 }
+
+const getLatestData = async () => {
+  try {
+    // 백엔드에서 모든 카드를 가져오기
+    const response = await api.get('/cards');
+    const allCards = response.data.data; //allCards 잘 불러와짐. (백엔드 저장 데이터)
+
+    // 모든 카드 중에서 최근에 저장된 카드를 찾기
+    const latestCard = findLatestCard(allCards); 
+    console.log('최근 카드:',latestCard)
+
+    // 최근에 저장된 카드 반환
+    return latestCard;
+  } catch (error) {
+    console.error('카드를 가져오는 중 에러 발생:', error);
+    return error;
+  }
+};
+
+const findLatestCard = (cards) => {
+  if (!Array.isArray(cards) || cards.length === 0) {
+    return null;
+  }
+
+  try {
+    // 카드들을 생성일자 기준으로 정렬 (가장 최근이 맨 앞에 오도록)
+    const sortedCards = cards.sort((a, b) => {
+      console.log('a.createdAt:', a.createdAt);
+      console.log('b.createdAt:', b.createdAt);
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+
+    // 가장 최근에 저장된 카드 반환
+    return sortedCards[0];
+  } catch (error) {
+    console.error('정렬 중 오류 발생:', error);
+    return null;
+  }
+};
+
 
   
   return(
