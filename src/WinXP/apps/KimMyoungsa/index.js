@@ -80,7 +80,7 @@ function KimMyoungsa({ onClose }) {
           }`}
         >  
           <img className="ie__function_bar__icon" src={back} alt="" />
-          <span className="ie__function_bar__text">Back</span>
+          <span className="ie__function_bar__text">뒤로</span>
           <div className="ie__function_bar__arrow" />
         </div>
         <div className="ie__function_bar__button--disable">

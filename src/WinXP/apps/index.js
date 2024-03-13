@@ -129,28 +129,28 @@ export const defaultIconState = [
   {
     id: 2,
     icon: mine,
-    title: "Minesweeper",
+    title: "지뢰 찾기",
     component: Minesweeper,
     isFocus: false
   },
   {
     id: 3,
     icon: computerLarge,
-    title: "My Computer",
+    title: "내 컴퓨터",
     component: MyComputer,
     isFocus: false
   },
   {
     id: 4,
     icon: notepadLarge,
-    title: "Notepad",
+    title: "메모장",
     component: Notepad,
     isFocus: false
   },
   {
     id: 5,
     icon: paintLarge,
-    title: "Paint",
+    title: "그림판",
     component: Paint,
     isFocus: false
   }
@@ -179,7 +179,7 @@ export const appSettings = {
   "KimMyoungsa": {
     header: {
       icon: kimIcon,
-      title: "KimMyoungsa"
+      title: "김씨네 명함 사무소"
     },
     component: KimMyoungsaFinal,
     defaultSize: {
@@ -238,7 +238,7 @@ export const appSettings = {
   "My Computer": {
     header: {
       icon: computer,
-      title: "My Computer"
+      title: "내 컴퓨터"
     },
     component: MyComputer,
     defaultSize: {
@@ -257,7 +257,7 @@ export const appSettings = {
   Notepad: {
     header: {
       icon: notepad,
-      title: "Untitled - Notepad"
+      title: "글로벌미디어학부 졸업전시회 BLOOM 2024"
     },
     component: Notepad,
     defaultSize: {
@@ -276,7 +276,7 @@ export const appSettings = {
   Paint: {
     header: {
       icon: paint,
-      title: "Untitled - Paint"
+      title: "글로벌미디어학부 졸업전시회 BLOOM 2024"
     },
     component: Paint,
     defaultSize: {

@@ -8,10 +8,17 @@ const SessionSelector = ({ onSelectSession }) => {
     '프론트엔드 개발자',
     'UX/UI 디자이너',
     '2D 그래픽 디자이너',
+    '게임 개발자',
     '기획자',
     'PM',
     '마케터',
-    '인플루언서'
+    '인플루언서',
+    '데이터 사이언티스트',
+    '연구원',
+    '미디어 아티스트',
+    'IOT 개발자',
+    '로봇 공학자',
+    '소프트웨어 엔지니어'
   ];
 
   const [session, setSession] = useState('');

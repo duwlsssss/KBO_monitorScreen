@@ -42,25 +42,25 @@ function FooterMenu({ className, onClick }) {
     <div className={className}>
       <header>
         <img className="header__img" src={user} alt="avatar" />
-        <span className="header__text">User</span>
+        <span className="header__text">Kim's</span>
       </header>
       <section className="menu" onMouseOver={onMouseOver}>
         <hr className="orange-hr" />
         <div className="menu__left">
-          <Item onClick={onClick} text="Internet" icon={ie}>
+          <Item onClick={onClick} text="인터넷" icon={ie}>
             <div className="menu__item__subtext">Internet Explorer</div>
           </Item>
-          <Item onClick={onClick} text="E-mail" icon={outlook}>
+          <Item onClick={onClick} text="전자 메일" icon={outlook}>
             <div className="menu__item__subtext">Outlook Express</div>
           </Item>
           <div className="menu__separator" />
           <Items
             onClick={onClick}
             items={[
-              { icon: kimIcon, text: "KimMyoungSa"},
-              { icon: mine, text: "Minesweeper" },
-              { icon: notepad, text: "Notepad" },
-              { icon: paint, text: "Paint" },
+              { icon: kimIcon, text: "김씨네명함사무소"},
+              { icon: mine, text: "지뢰 찾기" },
+              { icon: notepad, text: "메모장" },
+              { icon: paint, text: "그림판" },
               { icon: mediaPlayer, text: "Windows Media Player" },
               { icon: messenger, text: "Windows Messenger" }
             ]}
@@ -78,7 +78,7 @@ function FooterMenu({ className, onClick }) {
             }
             text={
               <div style={{ display: "flex", alignItems: "center" }}>
-                All Programs
+                모든 프로그램 (P)
                 <img
                   src={allProgramsIcon}
                   alt=""
@@ -97,7 +97,7 @@ function FooterMenu({ className, onClick }) {
           </Item>
         </div>
         <div className="menu__right">
-          <Item text="My Documents" icon={documents} onClick={onClick} />
+          <Item text="내 문서" icon={documents} onClick={onClick} />
           <Item
             style={
               hovering === "My Recent Documents"
@@ -107,7 +107,7 @@ function FooterMenu({ className, onClick }) {
                   }
                 : {}
             }
-            text="My Recent Documents"
+            text="내 최근 문서 (D) "
             icon={recentDocuments}
           >
             <div
@@ -128,17 +128,17 @@ function FooterMenu({ className, onClick }) {
           <Items
             onClick={onClick}
             items={[
-              { icon: pictures, text: "My Pictures" },
-              { icon: music, text: "My Music" },
-              { icon: computer, text: "My Computer" }
+              { icon: pictures, text: "내 그림" },
+              { icon: music, text: "내 음악" },
+              { icon: computer, text: "내 컴퓨터" }
             ]}
           />
           <div className="menu__separator" />
           <Items
             onClick={onClick}
             items={[
-              { icon: controlPanel, text: "Control Panel" },
-              { icon: setAccess, text: "Set Program Access and Defaults" }
+              { icon: controlPanel, text: "환경 설정" },
+              { icon: setAccess, text: "기본 프로그램 설정" }
             ]}
           />
           <Item
@@ -163,14 +163,14 @@ function FooterMenu({ className, onClick }) {
               <SubMenu left="153px" data={ConnectTo} onClick={onClick} />
             )}
           </Item>
-          <Item onClick={onClick} text="Printers and Faxes" icon={printer} />
+          <Item onClick={onClick} text="프린터 및 팩스" icon={printer} />
           <div className="menu__separator" />
           <Items
             onClick={onClick}
             items={[
-              { icon: help, text: "Help and Support" },
-              { icon: search, text: "Search" },
-              { icon: run, text: "Run..." }
+              { icon: help, text: "도움말 및 지원 (H)" },
+              { icon: search, text: "검색 (S)" },
+              { icon: run, text: "실행 (R)" }
             ]}
           />
         </div>
@@ -178,14 +178,14 @@ function FooterMenu({ className, onClick }) {
       <footer>
         <div className="footer__item" onClick={() => onClick("Log Off")}>
           <img className="footer__item__img" src={lock} alt="" />
-          <span>Log Off</span>
+          <span>로그오프(L)</span>
         </div>
         <div
           className="footer__item"
           onClick={() => onClick("Turn Off Computer")}
         >
           <img className="footer__item__img" src={shut} alt="" />
-          <span>Turn Off Computer</span>
+          <span>컴퓨터 끄기(U)</span>
         </div>
       </footer>
     </div>

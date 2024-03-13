@@ -79,12 +79,12 @@ export const AllPrograms = [
   {
     type: "item",
     icon: access,
-    text: "Set Program Access and Defaults"
+    text: "기본 프로그램 설정"
   },
   {
     type: "item",
     icon: catalog,
-    text: "Windows Catalog"
+    text: "Windows 카탈로그"
   },
   {
     type: "item",
@@ -254,17 +254,17 @@ export const AllPrograms = [
       {
         type: "item",
         icon: notepad,
-        text: "Notepad"
+        text: "메모장"
       },
       {
         type: "item",
         icon: painter,
-        text: "Paint"
+        text: "그림판"
       },
       {
         type: "item",
         icon: calculator,
-        text: "Calculator"
+        text: "계산기"
       },
       {
         type: "item",
@@ -301,7 +301,7 @@ export const AllPrograms = [
   {
     type: "menu",
     icon: menu,
-    text: "Games",
+    text: "게임",
     items: [
       {
         type: "item",
@@ -341,12 +341,12 @@ export const AllPrograms = [
       {
         type: "item",
         icon: mine,
-        text: "Minesweeper"
+        text: "지뢰 찾기"
       },
       {
         type: "item",
         icon: pinball,
-        text: "Pinball"
+        text: "핀볼"
       },
       {
         type: "item",
@@ -363,7 +363,7 @@ export const AllPrograms = [
   {
     type: "menu",
     icon: menu,
-    text: "Startup",
+    text: "시작 프로그램",
     items: [
       {
         type: "item",

@@ -13,7 +13,7 @@ function Paint({ onClose, isFocus }) {
     >
       <iframe
         src="https://jspaint.app"
-        title="paint"
+        title="그림판"
         style={{
           display: 'block',
           width: '100%',

@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import logoImg from "assets/kimPageIcons/임시로고.png"
+import logoImg from "assets/kimPageIcons/image.png"
 import styled from 'styled-components'
 import { Title } from "./AboutUs";
 
@@ -17,16 +17,22 @@ const MainContainer = styled.div`
   margin-top: 30px;
 `;
 
+const LogoImage = styled.img`
+  width: 500px; 
+  height: auto; 
+  padding-top:30px;
+`;
+
 function Main(){
   return(
     <div>
        <Header/>
-      <Title><strong>KimMyungsa.com</strong> 에 오신 것을 환영합니다?</Title>
+      <Title><strong>KimMyungsa.com</strong> 에 오신 것을 환영합니다!</Title>
      
       <main>
         <MainContainer>
-        <div className="logo">
-          <img src={logoImg} className="logo-img"/>
+        <div className="logo" >
+          <LogoImage src={logoImg} className="logo-img"/>
         </div>
         </MainContainer>
       </main>

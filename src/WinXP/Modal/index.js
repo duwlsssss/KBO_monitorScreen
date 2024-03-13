@@ -40,12 +40,12 @@ const Menu = ({ mode, onClose, onClickButton }) => {
     if (mode === POWER_STATE.TURN_OFF) {
       return (
         <>
-          <ButtonDisabled img={off} text="Stand By" />
-          <Button img={off} text="Turn Off" onClick={onClickButton} />
+          <ButtonDisabled img={off} text="대기 모드 (S)" />
+          <Button img={off} text="끄기 (U)" onClick={onClickButton} />
           <Button
             style={{ margin: '-3px 0 0px 0', width: '33px', height: '33px' }}
             img={restart}
-            text="Restart"
+            text="다시 시작 (R)"
             onClick={onClickButton}
           />
         </>
@@ -66,13 +66,13 @@ const Menu = ({ mode, onClose, onClickButton }) => {
   return (
     <div className="modal">
       <header className="header">
-        <span className="header__text">Log Off Windows</span>
+        <span className="header__text">시스템 종료</span>
         <img src={windowsLogo} alt="" className="header__img" />
       </header>
       <div className="content">{renderButtons()}</div>
       <footer className="footer">
         <button onClick={onClose} className="footer__button">
-          Cancel
+          취소
         </button>
       </footer>
     </div>

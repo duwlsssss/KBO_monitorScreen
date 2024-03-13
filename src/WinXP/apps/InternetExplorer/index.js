@@ -133,7 +133,7 @@ function InternetExplorer({ onClose }) {
         </div>
       </section>
       <section className="ie__address_bar">
-        <div className="ie__address_bar__title">Address</div>
+        <div className="ie__address_bar__title">주소</div>
         <div className="ie__address_bar__content">
           <img src={ie} alt="ie" className="ie__address_bar__content__img" />
           <div className="ie__address_bar__content__text">
@@ -176,7 +176,7 @@ function InternetExplorer({ onClose }) {
       <footer className="ie__footer">
         <div className="ie__footer__status">
           <img className="ie__footer__status__img" src={ie} alt="" />
-          <span className="ie__footer__status__text">Done</span>
+          <span className="ie__footer__status__text">완료</span>
         </div>
         <div className="ie__footer__block" />
         <div className="ie__footer__block" />
@@ -184,7 +184,7 @@ function InternetExplorer({ onClose }) {
         <div className="ie__footer__block" />
         <div className="ie__footer__right">
           <img className="ie__footer__right__img" src={earth} alt="" />
-          <span className="ie__footer__right__text">Internet</span>
+          <span className="ie__footer__right__text">인터넷</span>
           <div className="ie__footer__right__dots" />
         </div>
       </footer>

@@ -12,7 +12,7 @@ function lineBreak(str) {
   ));
 }
 
-function Error({ onClose, message = "Something's wrong!" }) {
+function Error({ onClose, message = "오류가 발생했습니다 !" }) {
   useEffect(() => {
     try {
       new Audio(errorSoundSrc).play();

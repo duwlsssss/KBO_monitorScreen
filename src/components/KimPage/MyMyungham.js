@@ -4,20 +4,21 @@ import styled from 'styled-components';
 import { useEffect, useState } from "react"
 import api from '../api/axios'
 import { Title } from "./AboutUs";
-
-
+import Webcam from "react-webcam";
 import SchoolSelector from "./Selector.js/schoolSelector";
 import MbtiSelector from "./Selector.js/MbtiSelector";
 import SessionSelector from "./Selector.js/sessionSelector";
-
-
+import {Cloudinary} from "@cloudinary/url-gen"; //클라우디너리 SDK
+import SignatureCanvas from 'react-signature-canvas'; 
 
 
 
 function MyMyungham(){
 
-  const [recentData, setRecentData] = useState(null);
 
+
+  const [recentData, setRecentData] = useState(null);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const [name, setName] = useState(''); //이름
   const [engName, setEngName] = useState (''); //영문 네임 
@@ -28,6 +29,10 @@ function MyMyungham(){
   const [school, setSchool] = useState(''); // 학교
   const [session, setSession] = useState(''); // 세션
   const [MBTI, setMBTI] = useState(''); // MBTI
+
+
+  const [selectedFilter, setSelectedFilter] = useState(null);
+
 
 //   const getCards=async()=>{
 //     const response = await api.get('/cards')
@@ -121,8 +126,6 @@ const findLatestCard = (cards) => {
   try {
     // 카드들을 생성일자 기준으로 정렬 (가장 최근이 맨 앞에 오도록)
     const sortedCards = cards.sort((a, b) => {
-      console.log('a.createdAt:', a.createdAt);
-      console.log('b.createdAt:', b.createdAt);
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
@@ -134,15 +137,136 @@ const findLatestCard = (cards) => {
   }
 };
 
+ //이전 페이지로 넘어감
+  const backStep = () =>{
+    setCurrentStep(currentStep -1);
+  };
 
-  
-  return(
+  //다음 페이지로 넘어감
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+
+  };
+
+const webcamRef = useRef(null);
+
+const [isWebcamReady, setIsWebcamReady] = useState(false);
+const [imgSrc, setImgSrc] = useState(null);
+
+const setRef = (webcam) => {
+  webcamRef.current = webcam;
+  if (webcam && !isWebcamReady) {
+    setIsWebcamReady(true);
+  }
+};
+
+const capture = async () => {
+  if (isWebcamReady) {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setImgSrc(imageSrc);
+    // // TODO: imageSrc를 저장하는 로직을 추가하기.
+
+     // Cloudinary 업로드
+     try {
+      const cloudinaryUploadEndpoint = `https://api.cloudinary.com/v1_1/duvv5smtd/upload`;
+      const formData = new FormData();
+      formData.append('file', imageSrc);
+
+      const uploadPreset = 'su9ieks9';
+      formData.append('upload_preset', uploadPreset);
+     
+
+      // formData.append('upload_preset', 'your_unsigned_upload_preset'); // 서명되지 않은 업로드 프리셋
+      // formData.append('tags', 'your_tags'); // 필요한 경우 태그 추가
+
+      const response = await fetch(cloudinaryUploadEndpoint, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+      
+        const responseData = await response.json();
+        console.log('Cloudinary 업로드 성공:', responseData);
+      } else {
+        console.error('Cloudinary 업로드 실패:', response.status, response.statusText);
+        const errorResponseData = await response.json();
+        console.error('에러 응답 데이터:', errorResponseData);
+      }
+    } catch (error) {
+      console.error('Cloudinary 업로드 중 에러:', error);
+    }
+  }
 
     
+  }
+
+
+
+const signatureRef = useRef();
+
+
+
+  return(
+
+
     <div> 
       <Header/>         
       <Title>대학생 명함 문화 주도, 김명사</Title>
       
+      {currentStep === 1 && (
+        <StyledMyMyungham>
+          <h3>화면을 응시해주세요. 촬영이 시작됩니다.</h3>
+          <Webcam
+            audio={false}
+            height={100}
+            screenshotFormat="image/jpeg"
+            width={280}
+            ref={setRef} 
+          />
+
+          {imgSrc && (
+                      <div>
+                        {/* 이미지 표시 */}
+                        <img src={imgSrc} alt="Captured Image" style={{ maxWidth: '100%' }} />
+                        <h5>*촬영하기를 눌러 재촬영이 가능합니다.</h5>
+                      </div>
+                      
+                    )}  
+
+              <h2>Filters</h2>
+              
+       
+            <button onClick={capture}>촬영하기</button>
+            <button onClick={nextStep}>다음</button>
+
+
+        </StyledMyMyungham>
+      )}
+
+         
+    {currentStep === 2&& (
+        <StyledMyMyungham>
+                <h3>서명 페이지</h3>
+              <p>화면에 서명을 해주세요.</p>
+
+
+      <SignatureCanvas
+        ref={signatureRef}
+        penColor="lightgrey"
+        canvasProps={{ width: 400, height: 200, className: 'signature-canvas' }}
+      />
+
+            <button onClick={backStep}>이전</button>
+            <button onClick={nextStep}>다음</button>
+
+
+        </StyledMyMyungham>
+      )}
+      
+      
+    
+      {currentStep === 3 && (
       <StyledMyMyungham>
       <form>
 
@@ -155,14 +279,19 @@ const findLatestCard = (cards) => {
           <MbtiSelector onSelectMBTI={(selectedMBTI) => setMBTI(selectedMBTI)}/>
           <input type="email" name="email" placeholder="이메일을 입력하세요" value={email} onChange={(event) => {
           setEmail(event.target.value);}}/>
-          <input type="text" name="ig" placeholder="인스타그램 아이디" value={ig} onChange={(event)=>{setIg(event.target.value)}}/>
+          <input type="text" name="ig" placeholder="인스타그램 아이디" value={ig} onChange={(event)=>{setIg(event.target.value)}}/> 
+          <input type="text" name="moto" placeholder="좌우명" />
 
           <br/> 
 
           <button onClick={addCard}>인쇄</button>
 
       </form>
+
+      <button onClick={backStep}>이전</button>
       </StyledMyMyungham>
+      )}
+
     </div>
   )
 }
@@ -170,6 +299,7 @@ const findLatestCard = (cards) => {
 
 //스타일 컴포넌트
 export default styled(MyMyungham)`
+
   
   height: 100%;
   background: white;
@@ -378,12 +508,14 @@ export default styled(MyMyungham)`
 `;
 
 const StyledMyMyungham = styled.div`
+
+
   height: 100%;
   background: whitegrey;
   margin-top: 10px;
   position: relative;
   font-family: 'DOSSaemmul';
-  
+
 
   form {
     max-width: 400px;
@@ -407,6 +539,12 @@ const StyledMyMyungham = styled.div`
     
       outline: none; 
     }
+
+
+  h5{
+    color:grey;
+  }
+
     button {
       width: 100%;
       padding: 10px;

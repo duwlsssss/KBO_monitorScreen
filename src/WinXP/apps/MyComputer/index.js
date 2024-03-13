@@ -65,7 +65,7 @@ function MyComputer({ onClose }) {
             src={search}
             alt=""
           />
-          <span className="com__function_bar__text">Search</span>
+          <span className="com__function_bar__text">검색</span>
         </div>
         <div className="com__function_bar__button">
           <img
@@ -86,14 +86,14 @@ function MyComputer({ onClose }) {
         </div>
       </section>
       <section className="com__address_bar">
-        <div className="com__address_bar__title">Address</div>
+        <div className="com__address_bar__title">주소</div>
         <div className="com__address_bar__content">
           <img
             src={computer}
             alt="ie"
             className="com__address_bar__content__img"
           />
-          <div className="com__address_bar__content__text">My Computer</div>
+          <div className="com__address_bar__content__text">내 컴퓨터</div>
           <img
             src={dropdown}
             alt="dropdown"
@@ -111,7 +111,7 @@ function MyComputer({ onClose }) {
             <div className="com__content__left__card">
               <div className="com__content__left__card__header">
                 <div className="com__content__left__card__header__text">
-                  System Tasks
+                  시스템 도구
                 </div>
                 <img
                   src={pullup}
@@ -127,7 +127,7 @@ function MyComputer({ onClose }) {
                     alt="view"
                   />
                   <div className="com__content__left__card__text link">
-                    View system information
+                    시스템 정보
                   </div>
                 </div>
                 <div className="com__content__left__card__row">
@@ -137,7 +137,7 @@ function MyComputer({ onClose }) {
                     alt="remove"
                   />
                   <div className="com__content__left__card__text link">
-                    Add or remove programs
+                    프로그램 추가/제거
                   </div>
                 </div>
                 <div className="com__content__left__card__row">
@@ -147,7 +147,7 @@ function MyComputer({ onClose }) {
                     alt="control"
                   />
                   <div className="com__content__left__card__text link">
-                    Change a setting
+                    환경 설정
                   </div>
                 </div>
               </div>
@@ -171,7 +171,7 @@ function MyComputer({ onClose }) {
                     alt="network"
                   />
                   <div className="com__content__left__card__text link">
-                    My Network Places
+                    내 네트워크 환경
                   </div>
                 </div>
                 <div className="com__content__left__card__row">
@@ -181,7 +181,7 @@ function MyComputer({ onClose }) {
                     alt="document"
                   />
                   <div className="com__content__left__card__text link">
-                    My Documents
+                    내 문서
                   </div>
                 </div>
                 <div className="com__content__left__card__row">
@@ -191,7 +191,7 @@ function MyComputer({ onClose }) {
                     alt="folder"
                   />
                   <div className="com__content__left__card__text link">
-                    Shared Documents
+                    공유 문서
                   </div>
                 </div>
                 <div className="com__content__left__card__row">
@@ -201,7 +201,7 @@ function MyComputer({ onClose }) {
                     alt="control"
                   />
                   <div className="com__content__left__card__text link">
-                    Control Panel
+                    제어판
                   </div>
                 </div>
               </div>
@@ -221,7 +221,7 @@ function MyComputer({ onClose }) {
                   />
                   <div className="com__content__right__card__img-container">
                     <div className="com__content__right__card__text">
-                      Shared Documents
+                      공유 문서
                     </div>
                   </div>
                 </div>
@@ -241,7 +241,7 @@ function MyComputer({ onClose }) {
             </div>
             <div className="com__content__right__card">
               <div className="com__content__right__card__header">
-                Hard Disk Drives
+                하드 디스크 드라이브
               </div>
               <div className="com__content__right__card__content">
                 <div className="com__content__right__card__item">
@@ -252,7 +252,7 @@ function MyComputer({ onClose }) {
                   />
                   <div className="com__content__right__card__img-container">
                     <div className="com__content__right__card__text">
-                      Local Disk (C:)
+                      로컬 디스크 (C:)
                     </div>
                   </div>
                 </div>
@@ -272,7 +272,7 @@ function MyComputer({ onClose }) {
                     />
                   </div>
                   <div className="com__content__right__card__text">
-                    CD Drive (D:)
+                    CD 드라이브 (D:)
                   </div>
                 </div>
               </div>
