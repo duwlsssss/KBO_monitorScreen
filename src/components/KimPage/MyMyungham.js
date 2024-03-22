@@ -8,7 +8,7 @@ import Webcam from "react-webcam";
 import SchoolSelector from "./Selector.js/schoolSelector";
 import MbtiSelector from "./Selector.js/MbtiSelector";
 import SessionSelector from "./Selector.js/sessionSelector";
-import {Cloudinary} from "@cloudinary/url-gen"; //클라우디너리 SDK
+// import {Cloudinary} from "@cloudinary/url-gen"; //클라우디너리 SDK
 import SignatureCanvas from 'react-signature-canvas'; 
 
 
@@ -16,7 +16,22 @@ import SignatureCanvas from 'react-signature-canvas';
 function MyMyungham(){
 
 
+  const [userEmail, setUserEmail] = useState(''); // useEmail 상태 추가
 
+  useEffect(() => {
+    // URL에서 useEmail 파라미터 값을 가져오는 로직
+    const urlParams = new URLSearchParams(window.location.search);
+    const userEmailParam = urlParams.get('userEmail');
+    console.log('useEmailParam',userEmailParam);//테스트 출력, 이메일값
+    setUserEmail(userEmailParam); // useEmail 상태 설정
+  
+  
+  }, []);
+
+
+
+  console.log(userEmail);
+  
   const [recentData, setRecentData] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -29,10 +44,7 @@ function MyMyungham(){
   const [school, setSchool] = useState(''); // 학교
   const [session, setSession] = useState(''); // 세션
   const [MBTI, setMBTI] = useState(''); // MBTI
-
-
-  const [selectedFilter, setSelectedFilter] = useState(null);
-
+  const [moto, setMoto] = useState(''); //좌우명
 
 //   const getCards=async()=>{
 //     const response = await api.get('/cards')
@@ -44,13 +56,16 @@ function MyMyungham(){
 // },[])
 
 
+//카드 추가
 const addCard=async(event)=>{
   
   event.preventDefault(); //기본 제출 방지
+  console.log('addCard',userEmail);
 
   try{
 
       const response = await api.post('/cards',{
+          
           name :name,
           engName : engName,
           school : school,
@@ -59,16 +74,18 @@ const addCard=async(event)=>{
           email :email,
           session :session,
           MBTI: MBTI,
-          ig: ig
-
+          ig: ig,
+          moto: moto,
+          userEmail: userEmail 
+  
       });
-    
+   
       console.log('API 응답:', response);
       const { status } = response;
-
+  //입력 후 input 값 초기화
       if (status === 200) {
           console.log('성공');
-          //입력 후 input 값 초기화
+        
           setName('');
           setEngName('');
           setMajor('');
@@ -78,6 +95,7 @@ const addCard=async(event)=>{
           setSchool('');
           setSession('');
           setMBTI('');
+          setMoto('');
       } else {
           throw new Error('카드를 추가할 수 없습니다.');
       }
@@ -85,7 +103,7 @@ const addCard=async(event)=>{
       console.error('에러', err);
   }
 
-   // 가장 최근에 저장된 데이터를 가져와서 상태 업데이트
+  //  가장 최근에 저장된 데이터를 가져와서 상태 업데이트
   const latestData = await getLatestData(); 
   setRecentData(latestData);
 
@@ -95,8 +113,6 @@ const addCard=async(event)=>{
     type: 'recentData',
     data: latestData,
   }, '*');
-
-
 
 }
 
@@ -148,6 +164,8 @@ const findLatestCard = (cards) => {
 
   };
 
+
+//리액트 웹캠 세팅 
 const webcamRef = useRef(null);
 
 const [isWebcamReady, setIsWebcamReady] = useState(false);
@@ -160,6 +178,8 @@ const setRef = (webcam) => {
   }
 };
 
+
+//클라우디너리에 이미지 저장 로직!
 const capture = async () => {
   if (isWebcamReady) {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -280,7 +300,7 @@ const signatureRef = useRef();
           <input type="email" name="email" placeholder="이메일을 입력하세요" value={email} onChange={(event) => {
           setEmail(event.target.value);}}/>
           <input type="text" name="ig" placeholder="인스타그램 아이디" value={ig} onChange={(event)=>{setIg(event.target.value)}}/> 
-          <input type="text" name="moto" placeholder="좌우명" />
+          <input type="text" name="moto" placeholder="좌우명" value={moto} onChange={(event)=>{setMoto(event.target.value)}} />
 
           <br/> 
 
