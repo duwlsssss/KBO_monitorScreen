@@ -31,7 +31,7 @@ function MyMyungham(){
 
 
   console.log(userEmail);
-  
+
   const [recentData, setRecentData] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -191,6 +191,9 @@ const capture = async () => {
       const cloudinaryUploadEndpoint = `https://api.cloudinary.com/v1_1/duvv5smtd/upload`;
       const formData = new FormData();
       formData.append('file', imageSrc);
+
+      //사용자 태그 추가
+      formData.append('tags', userEmail);
 
       const uploadPreset = 'su9ieks9';
       formData.append('upload_preset', uploadPreset);
