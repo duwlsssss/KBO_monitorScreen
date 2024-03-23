@@ -178,13 +178,15 @@ const setRef = (webcam) => {
   }
 };
 
-
+const [lastCapturedImage, setLastCapturedImage] = useState(null);
 //클라우디너리에 이미지 저장 로직!
 const capture = async () => {
   if (isWebcamReady) {
-    const imageSrc = webcamRef.current.getScreenshot();
+    const imageSrc = webcamRef.current.getScreenshot(); //현재 찍은 사진
     setImgSrc(imageSrc);
-    // // TODO: imageSrc를 저장하는 로직을 추가하기.
+ 
+
+    setLastCapturedImage(imageSrc);
   }
 };
   // Cloudinary 업로드
@@ -230,26 +232,14 @@ const capture = async () => {
 
       try {
          
-        const imageSrc = webcamRef.current.getScreenshot();
+        await uploadImageToCloudinary(lastCapturedImage);
         
-        if (imageSrc) {
-          // Cloudinary 이미지 업로드
-          const imageUrl = await uploadImageToCloudinary(imageSrc);
-          setCurrentStep(currentStep + 1);
-          if (imageUrl) {
-            // 이미지가 성공적으로 업로드되면 다음 페이지로 이동
-           console.log('이미지 업로드 성공!')
-          } else {
-            console.error('이미지 업로드 실패');
-          }
-        } else {
-          console.error('웹캠이 준비되지 않았거나 이미지가 없습니다.');
-        }
-      } catch (error) {
-        console.error('이미지 업로드 중 에러:', error);
-      }
-    
-  };
+        setCurrentStep(currentStep + 1);
+
+  }catch{
+    console.log('사진 업로드 에러 발생')
+  }
+};
   
 
 
