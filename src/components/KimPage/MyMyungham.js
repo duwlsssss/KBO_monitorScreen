@@ -185,44 +185,72 @@ const capture = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
     // // TODO: imageSrc를 저장하는 로직을 추가하기.
-
-     // Cloudinary 업로드
-     try {
-      const cloudinaryUploadEndpoint = `https://api.cloudinary.com/v1_1/duvv5smtd/upload`;
-      const formData = new FormData();
-      formData.append('file', imageSrc);
-
-      //사용자 태그 추가
-      formData.append('tags', userEmail);
-
-      const uploadPreset = 'su9ieks9';
-      formData.append('upload_preset', uploadPreset);
-     
-
-      // formData.append('upload_preset', 'your_unsigned_upload_preset'); // 서명되지 않은 업로드 프리셋
-      // formData.append('tags', 'your_tags'); // 필요한 경우 태그 추가
-
-      const response = await fetch(cloudinaryUploadEndpoint, {
-        method: 'POST',
-        body: formData
-      });
-
-      if (response.ok) {
-      
-        const responseData = await response.json();
-        console.log('Cloudinary 업로드 성공:', responseData);
-      } else {
-        console.error('Cloudinary 업로드 실패:', response.status, response.statusText);
-        const errorResponseData = await response.json();
-        console.error('에러 응답 데이터:', errorResponseData);
-      }
-    } catch (error) {
-      console.error('Cloudinary 업로드 중 에러:', error);
-    }
   }
+};
+  // Cloudinary 업로드
 
+  const uploadImageToCloudinary =async(imageSrc)=>{
+  try {
+    const cloudinaryUploadEndpoint = `https://api.cloudinary.com/v1_1/duvv5smtd/upload`;
+    const formData = new FormData();
+    formData.append('file', imageSrc);
+
+    //사용자 태그 추가
+    formData.append('tags', userEmail);
+
+    const uploadPreset = 'su9ieks9';
+    formData.append('upload_preset', uploadPreset);
+   
+
+    // formData.append('upload_preset', 'your_unsigned_upload_preset'); // 서명되지 않은 업로드 프리셋
+    // formData.append('tags', 'your_tags'); // 필요한 경우 태그 추가
+
+    const response = await fetch(cloudinaryUploadEndpoint, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
     
+      const responseData = await response.json();
+      console.log('Cloudinary 업로드 성공:', responseData);
+    } else {
+      console.error('Cloudinary 업로드 실패:', response.status, response.statusText);
+      const errorResponseData = await response.json();
+      console.error('에러 응답 데이터:', errorResponseData);
+    }
+  } catch (error) {
+    console.error('Cloudinary 업로드 중 에러:', error);
   }
+};
+
+  
+
+  const cloudinaryNextStep = async () => {
+
+      try {
+         
+        const imageSrc = webcamRef.current.getScreenshot();
+        
+        if (imageSrc) {
+          // Cloudinary 이미지 업로드
+          const imageUrl = await uploadImageToCloudinary(imageSrc);
+          setCurrentStep(currentStep + 1);
+          if (imageUrl) {
+            // 이미지가 성공적으로 업로드되면 다음 페이지로 이동
+           console.log('이미지 업로드 성공!')
+          } else {
+            console.error('이미지 업로드 실패');
+          }
+        } else {
+          console.error('웹캠이 준비되지 않았거나 이미지가 없습니다.');
+        }
+      } catch (error) {
+        console.error('이미지 업로드 중 에러:', error);
+      }
+    
+  };
+  
 
 
 
@@ -261,7 +289,7 @@ const signatureRef = useRef();
               
        
             <button onClick={capture}>촬영하기</button>
-            <button onClick={nextStep}>다음</button>
+            <button onClick={cloudinaryNextStep}>다음</button>
 
 
         </StyledMyMyungham>
@@ -318,7 +346,6 @@ const signatureRef = useRef();
     </div>
   )
 }
-
 
 //스타일 컴포넌트
 export default styled(MyMyungham)`
