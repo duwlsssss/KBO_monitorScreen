@@ -9,7 +9,6 @@ import SchoolSelector from "./Selector.js/schoolSelector";
 import MbtiSelector from "./Selector.js/MbtiSelector";
 import SessionSelector from "./Selector.js/sessionSelector";
 // import {Cloudinary} from "@cloudinary/url-gen"; //클라우디너리 SDK
-import SignatureCanvas from 'react-signature-canvas'; 
 
 
 
@@ -61,6 +60,8 @@ const addCard=async(event)=>{
   
   event.preventDefault(); //기본 제출 방지
   console.log('addCard',userEmail);
+  console.log('color',selectedBackground);//pink
+  console.log(typeof selectedBackground); //string
 
   try{
 
@@ -76,7 +77,8 @@ const addCard=async(event)=>{
           MBTI: MBTI,
           ig: ig,
           moto: moto,
-          userEmail: userEmail 
+          userEmail: userEmail,
+          backgroundOption: selectedBackground 
   
       });
    
@@ -96,9 +98,12 @@ const addCard=async(event)=>{
           setSession('');
           setMBTI('');
           setMoto('');
+      
       } else {
           throw new Error('카드를 추가할 수 없습니다.');
       }
+
+      
   } catch (err) {
       console.error('에러', err);
   }
@@ -179,6 +184,8 @@ const setRef = (webcam) => {
 };
 
 const [lastCapturedImage, setLastCapturedImage] = useState(null);
+
+
 //클라우디너리에 이미지 저장 로직!
 const capture = async () => {
   if (isWebcamReady) {
@@ -240,12 +247,23 @@ const capture = async () => {
     console.log('사진 업로드 에러 발생')
   }
 };
+
+
+//배경 색깔 선택
+const [selectedBackground, setSelectedBackground] = useState(null);
+
+const BackgroundOptions = [
+  { name: 'Green', image: 'green.png' },
+  { name: 'Pink', image: 'pink.png' },
+  { name: 'Yellow', image: 'yellow.png' },
+  { name: 'Blue', image: 'blue.png' }
+];
+
+
+const handleBackgroundSelection = (name) => {
+  setSelectedBackground(name);
+};
   
-
-
-
-const signatureRef = useRef();
-
 
 
   return(
@@ -285,18 +303,26 @@ const signatureRef = useRef();
         </StyledMyMyungham>
       )}
 
+      
+
          
-    {currentStep === 2&& (
+     {currentStep === 2&& (
         <StyledMyMyungham>
-                <h3>서명 페이지</h3>
-              <p>화면에 서명을 해주세요.</p>
+              <h3>명함 배경 선택</h3>
+                
+                {BackgroundOptions.map(option => (
+           
+           <Image
+              key={option.image}
+              src={option.image}
+              alt={option.name}
+              onClick={() => handleBackgroundSelection(option.name)}
+              style={{ cursor: 'pointer' }}
+              
+              isSelected={selectedBackground === option.name}
+            />
 
-
-      <SignatureCanvas
-        ref={signatureRef}
-        penColor="lightgrey"
-        canvasProps={{ width: 400, height: 200, className: 'signature-canvas' }}
-      />
+          ))}
 
             <button onClick={backStep}>이전</button>
             <button onClick={nextStep}>다음</button>
@@ -304,7 +330,8 @@ const signatureRef = useRef();
 
         </StyledMyMyungham>
       )}
-      
+
+  
       
     
       {currentStep === 3 && (
@@ -606,4 +633,18 @@ const StyledMyMyungham = styled.div`
         border-color: #808080;
       }
   }
+`;
+
+
+const Image = styled.img`
+  width: 100px; /* 이미지의 너비를 조정합니다 */
+  height: auto; /* 높이를 자동으로 조정하여 비율을 유지합니다 */
+  margin: 5px; /* 이미지 사이의 여백을 조정합니다 */
+  cursor: pointer; /* 마우스 커서를 포인터로 변경합니다 */
+  border: 2px solid transparent; /* 기본적으로 테두리는 투명으로 설정합니다 */
+
+  /* 선택된 이미지에 테두리를 추가합니다 */
+  ${props => props.isSelected && `
+    border-color: red; /* 선택된 이미지의 테두리 색상을 지정합니다 */
+  `}
 `;
