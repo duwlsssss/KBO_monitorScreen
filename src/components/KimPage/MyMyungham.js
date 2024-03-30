@@ -8,11 +8,13 @@ import Webcam from "react-webcam";
 import SchoolSelector from "./Selector.js/schoolSelector";
 import MbtiSelector from "./Selector.js/MbtiSelector";
 import SessionSelector from "./Selector.js/sessionSelector";
-// import {Cloudinary} from "@cloudinary/url-gen"; //클라우디너리 SDK
+import {Cloudinary} from "@cloudinary/url-gen"; 
 
 
 
 function MyMyungham(){
+  
+   const [cldData, setCldData] = useState('');
 
 
   const [userEmail, setUserEmail] = useState(''); // useEmail 상태 추가
@@ -23,7 +25,6 @@ function MyMyungham(){
     const userEmailParam = urlParams.get('userEmail');
     console.log('useEmailParam',userEmailParam);//테스트 출력, 이메일값
     setUserEmail(userEmailParam); // useEmail 상태 설정
-  
   
   }, []);
 
@@ -186,61 +187,44 @@ const setRef = (webcam) => {
 const [lastCapturedImage, setLastCapturedImage] = useState(null);
 
 
-//클라우디너리에 이미지 저장 로직!
 const capture = async () => {
   if (isWebcamReady) {
     const imageSrc = webcamRef.current.getScreenshot(); //현재 찍은 사진
     setImgSrc(imageSrc);
- 
-
     setLastCapturedImage(imageSrc);
   }
 };
-  // Cloudinary 업로드
 
-  const uploadImageToCloudinary =async(imageSrc)=>{
+const cloudinary = new Cloudinary({
+  cloud: {
+    cloudName: 'duvv5smtd'
+  },
+  url: {
+    secure: true
+  }
+}); //클라우디너리 SDK
+
+
+
+
+const uploadImageToCloudinary = async () => {
   try {
-    const cloudinaryUploadEndpoint = `https://api.cloudinary.com/v1_1/duvv5smtd/upload`;
-    const formData = new FormData();
-    formData.append('file', imageSrc);
-
-    //사용자 태그 추가
-    formData.append('tags', userEmail);
-
-    const uploadPreset = 'su9ieks9';
-    formData.append('upload_preset', uploadPreset);
-   
-
-    // formData.append('upload_preset', 'your_unsigned_upload_preset'); // 서명되지 않은 업로드 프리셋
-    // formData.append('tags', 'your_tags'); // 필요한 경우 태그 추가
-
-    const response = await fetch(cloudinaryUploadEndpoint, {
-      method: 'POST',
-      body: formData
+    const response = await api.post('/images', {
+      image: lastCapturedImage,
+      tags: [userEmail]
     });
-
-    if (response.ok) {
-    
-      const responseData = await response.json();
-      console.log('Cloudinary 업로드 성공:', responseData);
-    } else {
-      console.error('Cloudinary 업로드 실패:', response.status, response.statusText);
-      const errorResponseData = await response.json();
-      console.error('에러 응답 데이터:', errorResponseData);
-    }
+    setCldData(response.data);
   } catch (error) {
-    console.error('Cloudinary 업로드 중 에러:', error);
+    console.error('Error uploading image:', error);
+    // Handle error
   }
 };
 
-  
 
   const cloudinaryNextStep = async () => {
 
       try {
-         
         await uploadImageToCloudinary(lastCapturedImage);
-        
         setCurrentStep(currentStep + 1);
 
   }catch{
@@ -263,7 +247,6 @@ const BackgroundOptions = [
 const handleBackgroundSelection = (name) => {
   setSelectedBackground(name);
 };
-  
 
 
   return(
@@ -293,15 +276,17 @@ const handleBackgroundSelection = (name) => {
                       
                     )}  
 
-              <h2>Filters</h2>
-              
-       
             <button onClick={capture}>촬영하기</button>
             <button onClick={cloudinaryNextStep}>다음</button>
-
-
+       
         </StyledMyMyungham>
-      )}
+
+        
+
+)}
+
+      
+      
 
       
 
@@ -327,7 +312,7 @@ const handleBackgroundSelection = (name) => {
             <button onClick={backStep}>이전</button>
             <button onClick={nextStep}>다음</button>
 
-
+                  
         </StyledMyMyungham>
       )}
 
@@ -367,7 +352,6 @@ const handleBackgroundSelection = (name) => {
 //스타일 컴포넌트
 export default styled(MyMyungham)`
 
-  
   height: 100%;
   background: white;
   padding-top: 22px;
@@ -648,3 +632,4 @@ const Image = styled.img`
     border-color: red; /* 선택된 이미지의 테두리 색상을 지정합니다 */
   `}
 `;
+
