@@ -12,7 +12,10 @@ import {Cloudinary} from "@cloudinary/url-gen";
 
 
 
+
+
 function MyMyungham(){
+  
   
    const [cldData, setCldData] = useState('');
 
@@ -99,6 +102,8 @@ const addCard=async(event)=>{
           setSession('');
           setMBTI('');
           setMoto('');
+         
+   
       
       } else {
           throw new Error('카드를 추가할 수 없습니다.');
@@ -249,6 +254,7 @@ const handleBackgroundSelection = (name) => {
 };
 
 
+
   return(
 
 
@@ -257,15 +263,22 @@ const handleBackgroundSelection = (name) => {
       <Title>대학생 명함 문화 주도, 김명사</Title>
       
       {currentStep === 1 && (
-        <StyledMyMyungham>
+        <div className="page1">
+         
           <h3>화면을 응시해주세요. 촬영이 시작됩니다.</h3>
+         
+          <div className="container">
+     
           <Webcam
             audio={false}
-            height={100}
+            height={200}
             screenshotFormat="image/jpeg"
-            width={280}
+            width={300}
             ref={setRef} 
           />
+        
+          </div>
+         
 
           {imgSrc && (
                       <div>
@@ -275,11 +288,36 @@ const handleBackgroundSelection = (name) => {
                       </div>
                       
                     )}  
+              <div className="button-container">
+                    <button className="round-button yellow-button" onClick={capture}>촬영하기</button>
+                  <button className="round-button red-button"  onClick={cloudinaryNextStep}>다음</button>
+             </div>
+          {/* {imgSrc && (
+          <div>
+            <h2>Overlays</h2>
+            <Filter>
+              {OVERLAYS.map(overlay => {
+                return (
+                  <li key={overlay} data-is-active-filter={false}>
+                    <FilterThumb onClick={() => setOverlay(overlay)}>
+                      <img width="100" height="100" src={
+                        cloudinary.image(cldData?.public_id)
+                          .resize('w_200,h_200')
+                          .addTransformation(`l_${overlay}/fl_layer_apply,fl_relative,g_faces,h_1.2,y_-0.05`)
+                          .toURL()
+                      } alt={overlay} />
+                      <span>{ overlay }</span>
+                   </FilterThumb>
+                  </li>
+                )
+              })}
+            </Filter>
+            </div>
+            )} */}
 
-            <button onClick={capture}>촬영하기</button>
-            <button onClick={cloudinaryNextStep}>다음</button>
        
-        </StyledMyMyungham>
+        </div>
+    
 
         
 
@@ -292,7 +330,7 @@ const handleBackgroundSelection = (name) => {
 
          
      {currentStep === 2&& (
-        <StyledMyMyungham>
+        <div className="page2">
               <h3>명함 배경 선택</h3>
                 
                 {BackgroundOptions.map(option => (
@@ -308,12 +346,12 @@ const handleBackgroundSelection = (name) => {
             />
 
           ))}
-
-            <button onClick={backStep}>이전</button>
-            <button onClick={nextStep}>다음</button>
-
-                  
-        </StyledMyMyungham>
+  <div className="button-container">
+            <button className="round-button green-button" onClick={backStep}>이전</button>
+            <button className="round-button red-button"  onClick={nextStep}>다음</button>
+        </div>
+        </div>
+       
       )}
 
   
@@ -337,11 +375,14 @@ const handleBackgroundSelection = (name) => {
 
           <br/> 
 
-          <button onClick={addCard}>인쇄</button>
-
+         
       </form>
+      <div className="button-container">
+     
+      <button className="round-button green-button"onClick={backStep}>이전</button>
+      <button className="round-button red-button" onClick={addCard}>인쇄</button>
 
-      <button onClick={backStep}>이전</button>
+      </div>
       </StyledMyMyungham>
       )}
 
@@ -621,7 +662,7 @@ const StyledMyMyungham = styled.div`
 
 
 const Image = styled.img`
-  width: 100px; /* 이미지의 너비를 조정합니다 */
+  width: 120px; /* 이미지의 너비를 조정합니다 */
   height: auto; /* 높이를 자동으로 조정하여 비율을 유지합니다 */
   margin: 5px; /* 이미지 사이의 여백을 조정합니다 */
   cursor: pointer; /* 마우스 커서를 포인터로 변경합니다 */
@@ -633,3 +674,43 @@ const Image = styled.img`
   `}
 `;
 
+
+
+// const FilterThumb = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   background: none;
+//   padding: 0.5em;
+//   border-radius: 0.2em;
+//   border: solid 2px ${props => props.theme.colorLightGray};
+//   cursor: pointer;
+
+//   &:hover {
+//     border: solid 2px ${props => props.theme.colorPurple};
+//   }
+
+//   &[data-is-active-filter="true"] {
+//     border: solid 2px ${props => props.theme.colorPurple};
+//     box-shadow: 0 2px 15px rgba(${props => props.theme.colorPurple}, .5);
+//   }
+
+//   span,
+//   img {
+//     display: block;
+//   }
+
+//   img {
+//     margin-bottom: .5em;
+//   }
+// `;
+
+// const Filter = styled.ul`
+//   display: grid;
+//   grid-gap: .5em;
+//   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+//   list-style: none;
+//   padding: 0;
+//   margin: 0;
+// `;

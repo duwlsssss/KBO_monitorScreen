@@ -2,3 +2,61 @@
   height: 100%;
 }
 
+.page1, .page2 {
+
+  height: 100%;
+
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DOSSaemmul';
+ 
+}
+
+
+.round-button {
+  display: inline-block;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  padding: 14px 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 20px;
+}
+
+.green-button {
+  background-image: linear-gradient(to bottom, #6bc670, #45a049);
+  border: 1px solid green ;
+}
+
+.red-button {
+  background-image: linear-gradient(to bottom, #e55e54, #c62828);
+  border: 1px solid red ;
+}
+
+.yellow-button{
+  background-image: linear-gradient(to bottom, #f6d996, #ffa509);
+  border: 1px solid orange ;
+}
+.yellow-button:hover {
+  background-image: linear-gradient(to bottom, #ffa509, #f6d996);
+}
+
+.green-button:hover {
+  background-image: linear-gradient(to bottom, #45a049, #6bc670);
+}
+
+.red-button:hover{
+  background-image: linear-gradient(to bottom, #c62828, #e55e54);
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: center; /* 가로 방향으로 가운데 정렬 */
+  margin-top: 20px; /* 버튼과의 간격 조절을 위한 마진 */
+}

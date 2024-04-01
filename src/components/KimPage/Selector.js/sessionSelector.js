@@ -18,7 +18,10 @@ const SessionSelector = ({ onSelectSession }) => {
     '미디어 아티스트',
     'IOT 개발자',
     '로봇 공학자',
-    '소프트웨어 엔지니어'
+    '소프트웨어 엔지니어',
+    '데이터베이스 관리자',
+    'AI/머신러닝 엔지니어'
+
   ];
 
   const [session, setSession] = useState('');

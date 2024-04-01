@@ -34,7 +34,7 @@ export const Title = styled.h1`
     font-weight: normal;
     font-style: normal;
   }
-
+  
   font-family: 'DOSSaemmul';
   margin: 1em 1em;
   
