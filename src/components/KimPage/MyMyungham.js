@@ -253,6 +253,23 @@ const handleBackgroundSelection = (name) => {
   setSelectedBackground(name);
 };
 
+//학번 에러 핸들링
+const [studentNumError, setStudentNumError] = useState('');
+
+// 학번 입력 값 변경 핸들러
+const handleStudentNumChange = (event) => {
+  const value = event.target.value;
+  // 숫자가 아닌 값이거나 아무런 문자도 입력되지 않은 경우
+  if (!/^\d*$/.test(value)) {
+    setStudentNumError('* 학번은 숫자만 입력해주세요.'); // 에러 메시지 설정
+  } else {
+    setStudentNumError(''); // 에러 메시지 초기화
+  }
+  setStudentNum(value); // 입력 값 설정
+};
+
+
+
 
 
   return(
@@ -267,7 +284,7 @@ const handleBackgroundSelection = (name) => {
          
           <h3>화면을 응시해주세요. 촬영이 시작됩니다.</h3>
          
-          <div className="container">
+          <div>
      
           <Webcam
             audio={false}
@@ -277,7 +294,9 @@ const handleBackgroundSelection = (name) => {
             ref={setRef} 
           />
         
+        
           </div>
+      
          
 
           {imgSrc && (
@@ -365,7 +384,8 @@ const handleBackgroundSelection = (name) => {
           <input type="text" value={engName} name="engName" onChange={(event)=>setEngName(event.target.value)} placeholder="영문 이름 혹은 닉네임"/><br/>
           <SchoolSelector onSelectSchool={(selectedSchool) => setSchool(selectedSchool)}/>
           <input type="text" value={major} name="major" onChange={(event)=>setMajor(event.target.value)} placeholder="학과"/><br/>
-          <input type="text" value={studentNum} name ="studentNum" onChange={(event)=>setStudentNum(event.target.value)} placeholder="학번"/><br/>
+          <input type="text" value={studentNum} name ="studentNum" onChange={handleStudentNumChange} placeholder="학번"/><br/>
+          {studentNumError && <div style={{ color: 'red' }}>{studentNumError}</div>}
           <SessionSelector onSelectSession={(selectedSession) => setSession(selectedSession)}/>
           <MbtiSelector onSelectMBTI={(selectedMBTI) => setMBTI(selectedMBTI)}/>
           <input type="email" name="email" placeholder="이메일을 입력하세요" value={email} onChange={(event) => {

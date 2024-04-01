@@ -54,9 +54,9 @@
   background-image: linear-gradient(to bottom, #c62828, #e55e54);
 }
 
-
 .button-container {
   display: flex;
   justify-content: center; /* 가로 방향으로 가운데 정렬 */
   margin-top: 20px; /* 버튼과의 간격 조절을 위한 마진 */
 }
+
