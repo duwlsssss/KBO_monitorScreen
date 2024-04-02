@@ -17,8 +17,9 @@
 
 
 .round-button {
+  margin-top:40px;
   display: inline-block;
-  border-radius: 50%;
+  border-radius: 80%;
   color: white;
   text-align: center;
   font-size: 18px;
@@ -26,6 +27,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-right: 20px;
+ 
 }
 
 .green-button {

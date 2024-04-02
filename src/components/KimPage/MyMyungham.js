@@ -8,9 +8,9 @@ import Webcam from "react-webcam";
 import SchoolSelector from "./Selector.js/schoolSelector";
 import MbtiSelector from "./Selector.js/MbtiSelector";
 import SessionSelector from "./Selector.js/sessionSelector";
-import {Cloudinary} from "@cloudinary/url-gen"; 
-
-
+// import {Cloudinary} from "@cloudinary/url-gen"; 
+import cameraSound from "./sound/cameraShuter.mp3";
+import buttonSound from "./sound/11 버튼선택음.wav";
 
 
 
@@ -66,6 +66,7 @@ const addCard=async(event)=>{
   console.log('addCard',userEmail);
   console.log('color',selectedBackground);//pink
   console.log(typeof selectedBackground); //string
+  console.log('font',selectedFont);
 
   try{
 
@@ -82,7 +83,8 @@ const addCard=async(event)=>{
           ig: ig,
           moto: moto,
           userEmail: userEmail,
-          backgroundOption: selectedBackground 
+          backgroundOption: selectedBackground,
+          fontOption: selectedFont
   
       });
    
@@ -102,9 +104,7 @@ const addCard=async(event)=>{
           setSession('');
           setMBTI('');
           setMoto('');
-         
-   
-      
+    
       } else {
           throw new Error('카드를 추가할 수 없습니다.');
       }
@@ -167,11 +167,15 @@ const findLatestCard = (cards) => {
  //이전 페이지로 넘어감
   const backStep = () =>{
     setCurrentStep(currentStep -1);
+    const audio = new Audio(buttonSound);
+    audio.play();
   };
 
   //다음 페이지로 넘어감
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
+    const audio = new Audio(buttonSound);
+    audio.play();
 
   };
 
@@ -197,17 +201,20 @@ const capture = async () => {
     const imageSrc = webcamRef.current.getScreenshot(); //현재 찍은 사진
     setImgSrc(imageSrc);
     setLastCapturedImage(imageSrc);
+
+    const audio = new Audio(cameraSound);
+    audio.play();
   }
 };
 
-const cloudinary = new Cloudinary({
-  cloud: {
-    cloudName: 'duvv5smtd'
-  },
-  url: {
-    secure: true
-  }
-}); //클라우디너리 SDK
+// const cloudinary = new Cloudinary({
+//   cloud: {
+//     cloudName: 'duvv5smtd'
+//   },
+//   url: {
+//     secure: true
+//   }
+// }); //클라우디너리 SDK
 
 
 
@@ -231,6 +238,9 @@ const uploadImageToCloudinary = async () => {
       try {
         await uploadImageToCloudinary(lastCapturedImage);
         setCurrentStep(currentStep + 1);
+        const audio = new Audio(buttonSound);
+        audio.play();
+    
 
   }catch{
     console.log('사진 업로드 에러 발생')
@@ -240,6 +250,7 @@ const uploadImageToCloudinary = async () => {
 
 //배경 색깔 선택
 const [selectedBackground, setSelectedBackground] = useState(null);
+const [selectedFont, setSelectedFont] = useState(null);
 
 const BackgroundOptions = [
   { name: 'Green', image: 'green.png' },
@@ -248,15 +259,32 @@ const BackgroundOptions = [
   { name: 'Blue', image: 'blue.png' }
 ];
 
+//카드 폰트 선택
+const FontOptions=[
+  { name: '1', image: 'fontEx.png'},
+  { name: '2' , image: 'fontEx.png'},
+  { name: '3' , image: 'fontEx.png'},
+  { name: '4' , image: 'fontEx.png'},
+  { name: '5' , image: 'fontEx.png'}
+]
+
+//카드 패턴 선택
+const PatternOptions=[ 
+  { name: 'dot'},
+  { name: 'star'}
+]
 
 const handleBackgroundSelection = (name) => {
   setSelectedBackground(name);
 };
 
+const handleFontSelection = (name) =>{
+  setSelectedFont(name);
+}
+
 //학번 에러 핸들링
 const [studentNumError, setStudentNumError] = useState('');
 
-// 학번 입력 값 변경 핸들러
 const handleStudentNumChange = (event) => {
   const value = event.target.value;
   // 숫자가 아닌 값이거나 아무런 문자도 입력되지 않은 경우
@@ -281,29 +309,29 @@ const handleStudentNumChange = (event) => {
       
       {currentStep === 1 && (
         <div className="page1">
-         
+          
           <h3>화면을 응시해주세요. 촬영이 시작됩니다.</h3>
-         
-          <div>
-     
+          <br></br>
+          <div style={{ position: 'relative', width: '350px', height: '300px' }}>
+          <img src="https://www.pngfind.com/pngs/b/129-1294618_camera-screen-png.png" style={{ position: 'absolute', top: 0, left: 0, width: '350px', height: '350px', zIndex: 1 }}/>
           <Webcam
             audio={false}
-            height={200}
+            height={210}
             screenshotFormat="image/jpeg"
-            width={300}
+            width={290}
             ref={setRef} 
+            style={{ position: 'absolute', top: '130px', left: 0, zIndex: 0 }}
           />
-        
-        
-          </div>
+          
+             
+    </div>
       
-         
-
+  
           {imgSrc && (
                       <div>
                         {/* 이미지 표시 */}
-                        <img src={imgSrc} alt="Captured Image" style={{ maxWidth: '100%' }} />
-                        <h5>*촬영하기를 눌러 재촬영이 가능합니다.</h5>
+                        <img src={imgSrc} alt="Captured Image" style={{ maxWidth: '100%' , marginTop:'80px'}} />
+                        <p>*촬영하기를 눌러 재촬영이 가능합니다.</p>
                       </div>
                       
                     )}  
@@ -311,41 +339,15 @@ const handleStudentNumChange = (event) => {
                     <button className="round-button yellow-button" onClick={capture}>촬영하기</button>
                   <button className="round-button red-button"  onClick={cloudinaryNextStep}>다음</button>
              </div>
-          {/* {imgSrc && (
-          <div>
-            <h2>Overlays</h2>
-            <Filter>
-              {OVERLAYS.map(overlay => {
-                return (
-                  <li key={overlay} data-is-active-filter={false}>
-                    <FilterThumb onClick={() => setOverlay(overlay)}>
-                      <img width="100" height="100" src={
-                        cloudinary.image(cldData?.public_id)
-                          .resize('w_200,h_200')
-                          .addTransformation(`l_${overlay}/fl_layer_apply,fl_relative,g_faces,h_1.2,y_-0.05`)
-                          .toURL()
-                      } alt={overlay} />
-                      <span>{ overlay }</span>
-                   </FilterThumb>
-                  </li>
-                )
-              })}
-            </Filter>
-            </div>
-            )} */}
+        
+      
 
        
         </div>
-    
-
-        
+       
 
 )}
 
-      
-      
-
-      
 
          
      {currentStep === 2&& (
@@ -373,10 +375,33 @@ const handleStudentNumChange = (event) => {
        
       )}
 
+{currentStep === 3&& (
+        <div className="page2">
+              <h3>명함 폰트 선택</h3>
+                
+                {FontOptions.map(option => (
+           
+           <Image
+              key={option.image}
+              src={option.image}
+              onClick={() => handleFontSelection(option.name)}
+              style={{ cursor: 'pointer' }}
+              isSelected={selectedFont === option.name}
+            />
+
+          ))}
+  <div className="button-container">
+            <button className="round-button green-button" onClick={backStep}>이전</button>
+            <button className="round-button red-button"  onClick={nextStep}>다음</button>
+        </div>
+        </div>
+       
+      )}
+
   
       
     
-      {currentStep === 3 && (
+      {currentStep === 4 && (
       <StyledMyMyungham>
       <form>
 
@@ -417,6 +442,7 @@ export default styled(MyMyungham)`
   background: white;
   padding-top: 22px;
   position: relative;
+  
   .top-bars {
     border-bottom: 1px rgb(235, 235, 235) solid;
   }
@@ -680,7 +706,7 @@ const StyledMyMyungham = styled.div`
   }
 `;
 
-
+//명함 배경
 const Image = styled.img`
   width: 120px; /* 이미지의 너비를 조정합니다 */
   height: auto; /* 높이를 자동으로 조정하여 비율을 유지합니다 */
