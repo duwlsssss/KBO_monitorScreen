@@ -16,9 +16,7 @@ import buttonSound from "./sound/11 버튼선택음.wav";
 
 function MyMyungham(){
   
-  
-   const [cldData, setCldData] = useState('');
-
+  const [cldData, setCldData] = useState('');
 
   const [userEmail, setUserEmail] = useState(''); // useEmail 상태 추가
 
@@ -59,6 +57,7 @@ function MyMyungham(){
 // },[])
 
 
+
 //카드 추가
 const addCard=async(event)=>{
   
@@ -66,7 +65,7 @@ const addCard=async(event)=>{
   console.log('addCard',userEmail);
   console.log('color',selectedBackground);//pink
   console.log(typeof selectedBackground); //string
-  console.log('font',selectedFont);
+  console.log('font',selectedFont);//1~5
 
   try{
 
@@ -84,12 +83,14 @@ const addCard=async(event)=>{
           moto: moto,
           userEmail: userEmail,
           backgroundOption: selectedBackground,
-          fontOption: selectedFont
+          fontOption: selectedFont,
+          patternOption: selectedPattern
   
       });
    
       console.log('API 응답:', response);
       const { status } = response;
+
   //입력 후 input 값 초기화
       if (status === 200) {
           console.log('성공');
@@ -248,15 +249,21 @@ const uploadImageToCloudinary = async () => {
 };
 
 
-//배경 색깔 선택
+
 const [selectedBackground, setSelectedBackground] = useState(null);
 const [selectedFont, setSelectedFont] = useState(null);
+const [selectedPattern, setSelectedPattern] = useState(null);
 
+//카드 배경 선택
 const BackgroundOptions = [
-  { name: 'Green', image: 'green.png' },
-  { name: 'Pink', image: 'pink.png' },
-  { name: 'Yellow', image: 'yellow.png' },
-  { name: 'Blue', image: 'blue.png' }
+  { name: 'Green', image: './bgcolor/앞_초.png' },
+  { name: 'Pink', image: './bgcolor/앞_핑.png' },
+  { name: 'Yellow', image: './bgcolor/앞_노.png' },
+  { name: 'Blue', image: './bgcolor/앞_파.png' },
+  { name: 'Purple', image: './bgcolor/앞_보.png' },
+  { name: 'Grey', image: './bgcolor/앞_회색.png' },
+  { name: 'Sky', image: './bgcolor/앞_하늘.png' }
+
 ];
 
 //카드 폰트 선택
@@ -268,11 +275,55 @@ const FontOptions=[
   { name: '5' , image: 'fontEx.png'}
 ]
 
-//카드 패턴 선택
+//카드 패턴 선택 (뒷면)
 const PatternOptions=[ 
-  { name: 'dot'},
-  { name: 'star'}
+  { name: 'dot', image: './pattern/흰동그라미.png'},
+  { name: 'starGrey', image: './pattern/회색별.png'},
+  { name: 'starPink', image: './pattern/핑크별.png'},
+  { name: 'starSky', image: './pattern/하늘별.png'},
+  { name: 'starGreen', image: './pattern/초록별.png'},
+  { name: 'starBlue', image: './pattern/파랑별.png'},
+  { name: 'starYellow', image: './pattern/노랑별.png'},
+  { name: 'starPurple', image: './pattern/보라별.png'},
+  { name: 'heartGrey', image: './pattern/회색하트.png'},
+  { name: 'heartPink', image: './pattern/핑크하트.png'},
+  { name: 'heartSky', image: './pattern/하늘하트.png'},
+  { name: 'heartGreen', image: './pattern/초록하트.png'},
+  { name: 'heartBlue', image: './pattern/파랑하트.png'},
+  { name: 'heartYellow', image: './pattern/노랑하트.png'},
+  { name: 'heartPurple', image: './pattern/보라하트.png'},
+
 ]
+//뒷면 패턴
+const patternImages={
+  "dot": "./pattern/흰동그라미.png",
+  "starGrey": "./pattern/회색별.png",
+  "starPink": "./pattern/핑크별.png",
+  "starSky":"./pattern/하늘별.png",
+  "starGreen": "./pattern/초록별.png",
+  "starBlue":"./pattern/파랑별.png",
+  "starYellow": "./pattern/노랑별.png",
+  "starPurple":"./pattern/보라별.png",
+  "heartGrey":"./pattern/회색하트.png",
+  "heartPink":"./pattern/핑크하트.png",
+  "heartSky":"./pattern/하늘하트.png",
+  "heartGreen":"./pattern/초록하트.png",
+  "heartBlue":"./pattern/파랑하트.png",
+  "heartYellow":"./pattern/노랑하트.png",
+  "heartPurple":"./pattern/보라하트.png"
+
+}
+
+//뒷면 색깔
+const backgroundImages = {
+  "Green": "./backgroundImage/backGreen.png",
+  "Pink": "./backgroundImage/backPink.png",
+  "Yellow": "./backgroundImage/backYellow.png",
+  "Blue": "./backgroundImage/backBlue.png",
+  "Purple": "./backgroundImage/backPurple.png",
+  "Grey": "./backgroundImage/backGrey.png",
+  "Sky": "./backgroundImage/backSky.png"
+};
 
 const handleBackgroundSelection = (name) => {
   setSelectedBackground(name);
@@ -282,6 +333,9 @@ const handleFontSelection = (name) =>{
   setSelectedFont(name);
 }
 
+const handlePatternSelection = (name) =>{
+  setSelectedPattern(name);
+}
 //학번 에러 핸들링
 const [studentNumError, setStudentNumError] = useState('');
 
@@ -308,9 +362,10 @@ const handleStudentNumChange = (event) => {
       <Title>대학생 명함 문화 주도, 김명사</Title>
       
       {currentStep === 1 && (
-        <div className="page1">
+        <div className="page">
           
-          <h3>화면을 응시해주세요. 촬영이 시작됩니다.</h3>
+          <h3>화면을 응시해주세요. 프로필 촬영이 시작됩니다.</h3>
+         
           <br></br>
           <div style={{ position: 'relative', width: '350px', height: '300px' }}>
           <img src="https://www.pngfind.com/pngs/b/129-1294618_camera-screen-png.png" style={{ position: 'absolute', top: 0, left: 0, width: '350px', height: '350px', zIndex: 1 }}/>
@@ -337,7 +392,7 @@ const handleStudentNumChange = (event) => {
                     )}  
               <div className="button-container">
                     <button className="round-button yellow-button" onClick={capture}>촬영하기</button>
-                  <button className="round-button red-button"  onClick={cloudinaryNextStep}>다음</button>
+                  <button className="round-button red-button"  onClick={cloudinaryNextStep}>확정!</button>
              </div>
         
       
@@ -351,9 +406,9 @@ const handleStudentNumChange = (event) => {
 
          
      {currentStep === 2&& (
-        <div className="page2">
-              <h3>명함 배경 선택</h3>
-                
+        <div className="page">
+              <h3>명함 배경 색깔을 선택해주세요.</h3>
+               <div>
                 {BackgroundOptions.map(option => (
            
            <Image
@@ -367,18 +422,19 @@ const handleStudentNumChange = (event) => {
             />
 
           ))}
+          </div>
   <div className="button-container">
             <button className="round-button green-button" onClick={backStep}>이전</button>
-            <button className="round-button red-button"  onClick={nextStep}>다음</button>
+            <button className="round-button red-button"  onClick={nextStep}>확정!</button>
         </div>
         </div>
        
       )}
 
 {currentStep === 3&& (
-        <div className="page2">
-              <h3>명함 폰트 선택</h3>
-                
+        <div className="page">
+              <h3>마음에 드는 명함 폰트를 선택해보세요.</h3>
+               <div>
                 {FontOptions.map(option => (
            
            <Image
@@ -390,18 +446,71 @@ const handleStudentNumChange = (event) => {
             />
 
           ))}
+          </div> 
   <div className="button-container">
             <button className="round-button green-button" onClick={backStep}>이전</button>
-            <button className="round-button red-button"  onClick={nextStep}>다음</button>
+            <button className="round-button red-button"  onClick={nextStep}>확정!</button>
         </div>
         </div>
        
       )}
 
+
+  <>
+    {currentStep === 4 && (
+      <div className="page">
+        <h3>뒷면 패턴 선택하기</h3>
+       
+       
+        <div className="pattern-selection">
+          <div className="pattern-container">
+            <div className="selected-images">
+              <div style={{ position: 'relative', margin: 'auto', width: '200px', height: '300px' }}>
+                {/* 선택된 배경에 따라 해당하는 이미지를 표시 */}
+                {selectedBackground && (
+                  <img src={backgroundImages[selectedBackground]} alt="Selected Background" width="500px" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
+                )}
+                {/* 선택된 패턴 이미지 표시 */}
+                {selectedPattern && (
+                  <img src={patternImages[selectedPattern]} alt="Selected Pattern" width="460px"style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }} />
+                )}
+              </div>
+            </div>
+            
+            {/* 패턴 이미지 선택 */}
+            <div className="pattern-options">
+              {PatternOptions.map(option => (
+                <Image
+                  key={option.image}
+                  src={option.image}
+                  onClick={() => handlePatternSelection(option.name)}
+                  style={{ cursor: 'pointer' }}
+                  isSelected={selectedPattern === option.name}
+                />
+              ))}
+            </div>
+          
+          </div>
+        
+
+          <div className="button-container">
+            <button className="round-button green-button" onClick={backStep}>이전</button>
+            <button className="round-button red-button" onClick={nextStep}>확정!</button>
+          </div>
+
+        </div>
+      </div>
+    )}
+  </>
+);
+
+
+  
+
   
       
     
-      {currentStep === 4 && (
+      {currentStep === 5&& (
       <StyledMyMyungham>
       <form>
 
@@ -719,44 +828,3 @@ const Image = styled.img`
     border-color: red; /* 선택된 이미지의 테두리 색상을 지정합니다 */
   `}
 `;
-
-
-
-// const FilterThumb = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   background: none;
-//   padding: 0.5em;
-//   border-radius: 0.2em;
-//   border: solid 2px ${props => props.theme.colorLightGray};
-//   cursor: pointer;
-
-//   &:hover {
-//     border: solid 2px ${props => props.theme.colorPurple};
-//   }
-
-//   &[data-is-active-filter="true"] {
-//     border: solid 2px ${props => props.theme.colorPurple};
-//     box-shadow: 0 2px 15px rgba(${props => props.theme.colorPurple}, .5);
-//   }
-
-//   span,
-//   img {
-//     display: block;
-//   }
-
-//   img {
-//     margin-bottom: .5em;
-//   }
-// `;
-
-// const Filter = styled.ul`
-//   display: grid;
-//   grid-gap: .5em;
-//   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-//   list-style: none;
-//   padding: 0;
-//   margin: 0;
-// `;
