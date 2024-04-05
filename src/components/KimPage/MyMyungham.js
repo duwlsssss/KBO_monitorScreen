@@ -66,6 +66,7 @@ const addCard=async(event)=>{
   console.log('color',selectedBackground);//pink
   console.log(typeof selectedBackground); //string
   console.log('font',selectedFont);//1~5
+  console.log('pattern',selectedPattern);
 
   try{
 
