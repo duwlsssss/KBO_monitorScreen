@@ -257,15 +257,32 @@ const [selectedPattern, setSelectedPattern] = useState(null);
 
 //카드 배경 선택
 const BackgroundOptions = [
-  { name: 'Green', image: './bgcolor/앞_초.png' },
-  { name: 'Pink', image: './bgcolor/앞_핑.png' },
-  { name: 'Yellow', image: './bgcolor/앞_노.png' },
-  { name: 'Blue', image: './bgcolor/앞_파.png' },
-  { name: 'Purple', image: './bgcolor/앞_보.png' },
-  { name: 'Grey', image: './bgcolor/앞_회색.png' },
-  { name: 'Sky', image: './bgcolor/앞_하늘.png' }
+  { name: 'Pink', image: './bgcolor/앞33.png' },
+  { name: 'Yellow', image: './bgcolor/앞11.png' },
+  { name: 'Grey', image: './bgcolor/앞22.png' },
+  { name: 'Sky', image: './bgcolor/앞44.png' }
 
 ];
+
+const AuroraBackgroundOptions=[
+  { name: 'PinkAurora', image: './bgdesign/앞55.png' },
+  { name: 'PurpleAurora', image: './bgdesign/앞66.png' },
+  { name: 'GreyAurora', image: './bgdesign/앞77.png' }
+]
+
+const CheckBackgroundOptions=[
+  { name: 'PinkCheck', image: './bgdesign/앞_체크1.png' },
+  { name: 'PurpleCheck', image: './bgdesign/앞_체크2.png' },
+  { name: 'BlueCheck', image: './bgdesign/앞_체크4.png' }
+]
+
+const OtherBackgroundOptions=[
+  { name: 'BlueOther', image: './bgdesign/기타1.png' },
+  { name: 'PinkOther', image: './bgdesign/기타2.png' },
+  { name: 'GreenMilitary', image: './bgdesign/기타3.png' },
+  { name: 'SkyOther', image: './bgdesign/기타4.png' },
+  { name: 'GreenStrawberry', image: './bgdesign/기타5.png' }
+]
 
 //카드 폰트 선택
 const FontOptions=[
@@ -311,19 +328,29 @@ const patternImages={
   "heartGreen":"./pattern/초록하트.png",
   "heartBlue":"./pattern/파랑하트.png",
   "heartYellow":"./pattern/노랑하트.png",
-  "heartPurple":"./pattern/보라하트.png"
+  "heartPurple":"./pattern/보라하트.png",
+
 
 }
 
 //뒷면 색깔
 const backgroundImages = {
-  "Green": "./backgroundImage/backGreen.png",
   "Pink": "./backgroundImage/backPink.png",
   "Yellow": "./backgroundImage/backYellow.png",
-  "Blue": "./backgroundImage/backBlue.png",
-  "Purple": "./backgroundImage/backPurple.png",
   "Grey": "./backgroundImage/backGrey.png",
-  "Sky": "./backgroundImage/backSky.png"
+  "Sky": "./backgroundImage/backSky.png",
+  "GreenStrawberry":"./backgroundImage/backGreen.png",
+  "GreenMilitary": "./backgroundImage/backMilitary.png",
+  "PinkAurora" : "./backgroundImage/backPink.png",
+  "PurpleAurora" : "./backgroundImage/backPurple.png",
+  "GreyAurora" : "./backgroundImage/backGrey.png",
+  "PinkCheck" : "./backgroundImage/backPink.png",
+  "PurpleCheck" : "./backgroundImage/backPurple.png",
+  "BlueCheck" : "./backgroundImage/backBlue.png",
+  "SkyOther" : "./backgroundImage/backSky.png",
+  "PinkOther" : "./backgroundImage/backPink.png",
+  "BlueOther" : "./backgroundImage/backBlue.png"
+  
 };
 
 const handleBackgroundSelection = (name) => {
@@ -408,9 +435,28 @@ const handleStudentNumChange = (event) => {
          
      {currentStep === 2&& (
         <div className="page">
-              <h3>명함 배경 색깔을 선택해주세요.</h3>
+              <h2>명함 배경을 선택해주세요.</h2>
+              <br></br>
+              <br></br>
+              
+              <h4>기본 단색 배경</h4>
                <div>
                 {BackgroundOptions.map(option => (
+           
+           <Image
+              key={option.image}
+              src={option.image}
+              alt={option.name}
+              onClick={() => handleBackgroundSelection(option.name)}
+              style={{ cursor: 'pointer' }}
+              isSelected={selectedBackground === option.name}
+            />
+
+          ))}
+          </div>
+          <h4>오로라 배경</h4>
+          <div>
+                {AuroraBackgroundOptions.map(option => (
            
            <Image
               key={option.image}
@@ -424,6 +470,41 @@ const handleStudentNumChange = (event) => {
 
           ))}
           </div>
+          <h4>체크무늬 배경</h4>
+          <div>
+                {CheckBackgroundOptions.map(option => (
+           
+           <Image
+              key={option.image}
+              src={option.image}
+              alt={option.name}
+              onClick={() => handleBackgroundSelection(option.name)}
+              style={{ cursor: 'pointer' }}
+              
+              isSelected={selectedBackground === option.name}
+            />
+
+          ))}
+        
+          </div>
+          <h4>기타 배경</h4>
+          <div>
+                { OtherBackgroundOptions.map(option => (
+           
+           <Image
+              key={option.image}
+              src={option.image}
+              alt={option.name}
+              onClick={() => handleBackgroundSelection(option.name)}
+              style={{ cursor: 'pointer' }}
+              
+              isSelected={selectedBackground === option.name}
+            />
+
+          ))}
+        
+          </div>
+        
   <div className="button-container">
             <button className="round-button green-button" onClick={backStep}>이전</button>
             <button className="round-button red-button"  onClick={nextStep}>확정!</button>
@@ -503,7 +584,7 @@ const handleStudentNumChange = (event) => {
       </div>
     )}
   </>
-);
+
 
 
   
@@ -818,7 +899,7 @@ const StyledMyMyungham = styled.div`
 
 //명함 배경
 const Image = styled.img`
-  width: 120px; /* 이미지의 너비를 조정합니다 */
+  width: 140px; /* 이미지의 너비를 조정합니다 */
   height: auto; /* 높이를 자동으로 조정하여 비율을 유지합니다 */
   margin: 5px; /* 이미지 사이의 여백을 조정합니다 */
   cursor: pointer; /* 마우스 커서를 포인터로 변경합니다 */
@@ -827,5 +908,6 @@ const Image = styled.img`
   /* 선택된 이미지에 테두리를 추가합니다 */
   ${props => props.isSelected && `
     border-color: red; /* 선택된 이미지의 테두리 색상을 지정합니다 */
+
   `}
 `;
