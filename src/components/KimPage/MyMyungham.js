@@ -85,7 +85,9 @@ const addCard=async(event)=>{
           userEmail: userEmail,
           backgroundOption: selectedBackground,
           fontOption: selectedFont,
-          patternOption: selectedPattern
+          patternOption: selectedPattern,
+          frameShapeoption: selectedFrameShape ,
+          frameOption: selectedFrame
   
       });
    
@@ -442,7 +444,7 @@ const handleStudentNumChange = (event) => {
           {imgSrc && (
                       <div>
                         {/* 이미지 표시 */}
-                        <img src={imgSrc} alt="Captured Image" style={{ maxWidth: '100%' , marginTop:'80px'}} />
+                        
                         <p>*촬영하기를 눌러 재촬영이 가능합니다.</p>
                       </div>
                       
