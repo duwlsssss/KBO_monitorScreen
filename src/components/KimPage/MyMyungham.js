@@ -255,6 +255,7 @@ const [selectedBackground, setSelectedBackground] = useState(null);
 const [selectedFont, setSelectedFont] = useState(null);
 const [selectedPattern, setSelectedPattern] = useState(null);
 const [selectedFrameShape, setSelectedFrameShape] = useState(null);
+const [selectedFrame, setSelectedFrame] = useState(null);
 
 //카드 배경 선택
 const BackgroundOptions = [
@@ -289,6 +290,13 @@ const FrameShapeOptions=[
   { name: 'Rec', image: './frameShape/프레임네모1.png' },
   { name: 'Circle', image: './frameShape/프레임원1.png' },
 
+]
+
+const FrameOptions=[
+  { name: 'RecStar', image: './frame/네모 반짝이.png' },
+  { name: 'RecHeart', image: './frame/네모하트.png' },
+  { name: 'CircleStar', image: './frame/원반짝.png' },
+  { name: 'CircleHeart', image: './frame/원하트.png' }
 ]
 
 //카드 폰트 선택
@@ -374,6 +382,10 @@ const handlePatternSelection = (name) =>{
 
 const handleFrameShapeSelection = (name) =>{
   setSelectedFrameShape(name);
+}
+
+const handleFrameSelection =(name) =>{
+  setSelectedFrame(name);
 }
 //학번 에러 핸들링
 const [studentNumError, setStudentNumError] = useState('');
@@ -462,14 +474,14 @@ const handleStudentNumChange = (event) => {
           </div> 
           <h4>프레임 선택 </h4>
           <div>
-                {FontOptions.map(option => (
+                {FrameOptions.map(option => (
            
            <Image
               key={option.image}
               src={option.image}
-              onClick={() => handleFontSelection(option.name)}
+              onClick={() => handleFrameSelection(option.name)}
               style={{ cursor: 'pointer' }}
-              isSelected={selectedFont === option.name}
+              isSelected={selectedFrame === option.name}
             />
 
           ))}

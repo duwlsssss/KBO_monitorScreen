@@ -2,12 +2,6 @@ import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "./Header";
 
-const ImgBox = styled.div`
-  width:200px;
-  height:250px;
-  background-color:gainsboro;
-  margin:40px;
-`
 
 function AboutUs(){
 
@@ -16,12 +10,16 @@ function AboutUs(){
     <div>
       
       <Header/>
-      <Title>김.명.사 제작팀을 소개합니다.</Title>
+  
+      <Title><iframe src="https://giphy.com/embed/3oKIPgf7qGYYO0fQ7S" width="100" height="50" frameBorder="0" allowFullScreen></iframe>김.명.사 제작팀을 소개합니다.  <iframe src="https://giphy.com/embed/10a8AOSeP6Rqfu" width="100" height="40" frameBorder="0" allowFullScreen></iframe></Title>
+   
       <hr/>
 
-      <ImgBox>김다슬 img</ImgBox>
-      <ImgBox>김수현 img</ImgBox>
-      <ImgBox>김여진 img</ImgBox>
+     <Center>
+     <img src="수현.png" width="340px"></img>
+     <img src="다슬.png" width="430px"></img>
+     <img src="여진1.png" width="300px"></img>
+     </Center>
     </div>
   )
 }
@@ -40,12 +38,24 @@ export const Title = styled.h1`
   
 `; 
 
+export const Center = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+
+margin-top: 20px; /* 이미지 위 여백 조절 */
+
+img {
+  margin-bottom: 20px; /* 이미지 아래 여백 조절 */
+}
+`
 
 export default styled(AboutUs)`
   height: 100%;
   background: white;
   padding-top: 22px;
   position: relative;
+
   @media (max-width: 800px) {
     .top-bar {
       height: auto;
