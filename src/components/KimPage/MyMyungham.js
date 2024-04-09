@@ -292,12 +292,18 @@ const FrameShapeOptions=[
 
 ]
 
-const FrameOptions=[
-  { name: 'RecStar', image: './frame/네모 반짝이.png' },
-  { name: 'RecHeart', image: './frame/네모하트.png' },
-  { name: 'CircleStar', image: './frame/원반짝.png' },
-  { name: 'CircleHeart', image: './frame/원하트.png' }
-]
+let FrameOptions=[];
+
+
+if (selectedFrameShape === "Rec") {
+    FrameOptions = [
+      {name: 'RecStar', image:'./frame/네모 반짝이.png'},
+      {name: 'RecHeart', image:'./frame/네모하트.png'}];
+} else if (selectedFrameShape === "Circle") {
+    FrameOptions = [
+    {name: 'CircleStar', image:'./frame/원반짝.png'},
+    {name: 'CircleHeart', image:'./frame/원하트.png'}]; 
+}
 
 //카드 폰트 선택
 const FontOptions=[
@@ -483,6 +489,7 @@ const handleStudentNumChange = (event) => {
               style={{ cursor: 'pointer' }}
               isSelected={selectedFrame === option.name}
             />
+            
 
           ))}
           </div> 
