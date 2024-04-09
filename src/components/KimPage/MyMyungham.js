@@ -254,6 +254,7 @@ const uploadImageToCloudinary = async () => {
 const [selectedBackground, setSelectedBackground] = useState(null);
 const [selectedFont, setSelectedFont] = useState(null);
 const [selectedPattern, setSelectedPattern] = useState(null);
+const [selectedFrameShape, setSelectedFrameShape] = useState(null);
 
 //카드 배경 선택
 const BackgroundOptions = [
@@ -284,13 +285,19 @@ const OtherBackgroundOptions=[
   { name: 'GreenStrawberry', image: './bgdesign/기타5.png' }
 ]
 
+const FrameShapeOptions=[
+  { name: 'Rec', image: './frameShape/프레임네모1.png' },
+  { name: 'Circle', image: './frameShape/프레임원1.png' },
+
+]
+
 //카드 폰트 선택
 const FontOptions=[
-  { name: '1', image: 'fontEx.png'},
-  { name: '2' , image: 'fontEx.png'},
-  { name: '3' , image: 'fontEx.png'},
-  { name: '4' , image: 'fontEx.png'},
-  { name: '5' , image: 'fontEx.png'}
+  { name: '1', image: './fonts/학교안심봄방학.png'},
+  { name: '2' , image: './fonts/밑미.png'},
+  { name: '3' , image: './fonts/스위트.png'},
+  { name: '4' , image: './fonts/거친둘기마요.png'},
+  { name: '5' , image: './fonts/학교안심붓펜.png'}
 ]
 
 //카드 패턴 선택 (뒷면)
@@ -364,6 +371,10 @@ const handleFontSelection = (name) =>{
 const handlePatternSelection = (name) =>{
   setSelectedPattern(name);
 }
+
+const handleFrameShapeSelection = (name) =>{
+  setSelectedFrameShape(name);
+}
 //학번 에러 핸들링
 const [studentNumError, setStudentNumError] = useState('');
 
@@ -431,11 +442,51 @@ const handleStudentNumChange = (event) => {
 
 )}
 
+{currentStep === 2&& (
+        <div className="page">
+              <h3>사진의 프레임 모양과 프레임 꾸미기</h3>
+              <br></br>
+              <h4>사진 모양 선택</h4>
+               <div>
+                {FrameShapeOptions.map(option => (
+           
+           <Image
+              key={option.image}
+              src={option.image}
+              onClick={() => handleFrameShapeSelection(option.name)}
+              style={{ cursor: 'pointer' }}
+              isSelected={selectedFrameShape === option.name}
+            />
+
+          ))}
+          </div> 
+          <h4>프레임 선택 </h4>
+          <div>
+                {FontOptions.map(option => (
+           
+           <Image
+              key={option.image}
+              src={option.image}
+              onClick={() => handleFontSelection(option.name)}
+              style={{ cursor: 'pointer' }}
+              isSelected={selectedFont === option.name}
+            />
+
+          ))}
+          </div> 
+  <div className="button-container">
+            <button className="round-button green-button" onClick={backStep}>이전</button>
+            <button className="round-button red-button"  onClick={nextStep}>확정!</button>
+        </div>
+        </div>
+       
+      )}
+
 
          
-     {currentStep === 2&& (
+     {currentStep === 3&& (
         <div className="page">
-              <h2>명함 배경을 선택해주세요.</h2>
+              <h2>명함 배경을 선택해보세요 O.u</h2>
               <br></br>
               <br></br>
               
@@ -513,9 +564,10 @@ const handleStudentNumChange = (event) => {
        
       )}
 
-{currentStep === 3&& (
+{currentStep === 4&& (
         <div className="page">
-              <h3>마음에 드는 명함 폰트를 선택해보세요.</h3>
+              <h3>마음에 드는 명함 폰트를 선택해보세요. (~˘▾˘)~♫•*¨*•.¸¸♪</h3>
+              <br></br>
                <div>
                 {FontOptions.map(option => (
            
@@ -539,7 +591,7 @@ const handleStudentNumChange = (event) => {
 
 
   <>
-    {currentStep === 4 && (
+    {currentStep === 5&& (
       <div className="page">
         <h3>뒷면 패턴 선택하기</h3>
        
@@ -592,7 +644,7 @@ const handleStudentNumChange = (event) => {
   
       
     
-      {currentStep === 5&& (
+      {currentStep === 6&& (
       <StyledMyMyungham>
       <form>
 
