@@ -20,8 +20,6 @@ const SessionSelector = ({ onSelectSession }) => {
     '데이터베이스 관리자',
     'AI/머신러닝 엔지니어',
     '꿈은 없고요, 그냥 놀고 싶습니다.'
-    
-
   ];
 
   const [session, setSession] = useState('');

@@ -289,7 +289,7 @@ const OtherBackgroundOptions=[
 ]
 
 const FrameShapeOptions=[
-  { name: 'Rec', image: './frameShape/프레임네모1.png' },
+  { name: 'Rec', image: './frameShape/프레임네모.png' },
   { name: 'Circle', image: './frameShape/프레임원1.png' },
 
 ]
@@ -299,12 +299,12 @@ let FrameOptions=[];
 
 if (selectedFrameShape === "Rec") {
     FrameOptions = [
-      {name: 'RecStar', image:'./frame/네모 반짝이.png'},
-      {name: 'RecHeart', image:'./frame/네모하트.png'}];
+      {name: 'RecStar', image:'./frame/네모별.png'},
+      {name: 'RecHeart', image:'./frame/네모하트2.png'}];
 } else if (selectedFrameShape === "Circle") {
     FrameOptions = [
-    {name: 'CircleStar', image:'./frame/원반짝.png'},
-    {name: 'CircleHeart', image:'./frame/원하트.png'}]; 
+    {name: 'CircleStar', image:'./frame/원별.png'},
+    {name: 'CircleHeart', image:'./frame/원하트2.png'}]; 
 }
 
 //카드 폰트 선택
@@ -464,7 +464,7 @@ const handleStudentNumChange = (event) => {
 
 {currentStep === 2&& (
         <div className="page">
-              <h3>사진의 프레임 모양과 프레임 꾸미기</h3>
+              <h2>사진의 프레임 모양은 네모와 타원형 두가지로 나뉩니다. 선택해주세요 !</h2>
               <br></br>
               <h4>사진 모양 선택</h4>
                <div>
@@ -589,6 +589,8 @@ const handleStudentNumChange = (event) => {
         <div className="page">
               <h2>마음에 드는 명함 폰트를 선택해보세요. (~˘▾˘)~♫•*¨*•.¸¸♪</h2>
               <br></br>
+              <br></br>
+              <br></br>
                <div>
                 {FontOptions.map(option => (
            
@@ -614,7 +616,7 @@ const handleStudentNumChange = (event) => {
   <>
     {currentStep === 5&& (
       <div className="page">
-        <h3>뒷면 패턴 선택하기</h3>
+        <h2>뒷면 패턴 선택하기</h2>
        
        
         <div className="pattern-selection">
@@ -706,6 +708,7 @@ export default styled(MyMyungham)`
   background: white;
   padding-top: 22px;
   position: relative;
+  font-family: 'DOSSaemmul';
   
   .top-bars {
     border-bottom: 1px rgb(235, 235, 235) solid;
@@ -916,7 +919,7 @@ const StyledMyMyungham = styled.div`
   background: whitegrey;
   margin-top: 10px;
   position: relative;
-
+  font-family: 'DOSSaemmul';
 
 
   form {
@@ -931,14 +934,14 @@ const StyledMyMyungham = styled.div`
       padding: 15px;
       margin-bottom: 15px;
       border: 1px solid grey;
-      
+      font-size:24px;
     }
     select {
       width: 100%;
       padding: 15px;
       margin-bottom: 15px;
       border: 1px solid grey;
-    
+      font-size:24px;
       outline: none; 
     }
 
@@ -952,7 +955,7 @@ const StyledMyMyungham = styled.div`
 
 //명함 배경
 const Image = styled.img`
-  width: 190px; /* 이미지의 너비를 조정합니다 */
+  width: 200px; /* 이미지의 너비를 조정합니다 */
   height: auto; /* 높이를 자동으로 조정하여 비율을 유지합니다 */
   margin: 5px; /* 이미지 사이의 여백을 조정합니다 */
   cursor: pointer; /* 마우스 커서를 포인터로 변경합니다 */

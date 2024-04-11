@@ -6,7 +6,7 @@ import { Title } from "./AboutUs";
 
 const Footer = styled.footer`
 text-align: center;          
-font-family: 'DOSSaemmul';
+
 margin-top:70px;
 `;
 
