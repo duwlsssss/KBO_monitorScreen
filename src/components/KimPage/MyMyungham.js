@@ -423,7 +423,7 @@ const handleStudentNumChange = (event) => {
       {currentStep === 1 && (
         <div className="page">
           
-          <h3>화면을 응시해주세요. 프로필 촬영이 시작됩니다.</h3>
+          <h2>화면을 응시해주세요. 프로필 촬영이 시작됩니다.</h2>
          
           <br></br>
           <div style={{ position: 'relative', width: '350px', height: '300px' }}>
@@ -445,7 +445,7 @@ const handleStudentNumChange = (event) => {
                       <div>
                      
                         <img src={imgSrc} alt="Captured Image" style={{ maxWidth: '100%' , marginTop:'80px'}} />
-                        <p>*촬영하기를 눌러 재촬영이 가능합니다.</p>
+                        <h3>*촬영하기를 눌러 재촬영이 가능합니다.</h3>
                       </div>
                       
                     )}  
@@ -587,7 +587,7 @@ const handleStudentNumChange = (event) => {
 
 {currentStep === 4&& (
         <div className="page">
-              <h3>마음에 드는 명함 폰트를 선택해보세요. (~˘▾˘)~♫•*¨*•.¸¸♪</h3>
+              <h2>마음에 드는 명함 폰트를 선택해보세요. (~˘▾˘)~♫•*¨*•.¸¸♪</h2>
               <br></br>
                <div>
                 {FontOptions.map(option => (
@@ -920,24 +920,24 @@ const StyledMyMyungham = styled.div`
 
 
   form {
-    max-width: 400px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 25px;
     background: #f9f9f9;
-    border-radius: 3px;
+    border-radius: 10px;
 
     input {
       width: 100%;
-      padding: 10px;
+      padding: 15px;
       margin-bottom: 15px;
-      border: 1px solid #ddd;
-      outline: none; 
+      border: 1px solid grey;
+      
     }
     select {
       width: 100%;
-      padding: 10px;
+      padding: 15px;
       margin-bottom: 15px;
-      border: 1px solid #ddd;
+      border: 1px solid grey;
     
       outline: none; 
     }
@@ -947,32 +947,12 @@ const StyledMyMyungham = styled.div`
     color:grey;
   }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #f0f0f0;
-      border: 1px solid #a0a0a0;
-      cursor: pointer;
-      color: #000;
-      font-size: 14px;
-      font-weight: bold;
-      transition: background 0.3s, border-color 0.2s;
-
-      &:hover {
-        background: #e0e0e0;
-        border-color: #909090;
-      }
-
-      &:active {
-        background: #c0c0c0;
-        border-color: #808080;
-      }
   }
 `;
 
 //명함 배경
 const Image = styled.img`
-  width: 140px; /* 이미지의 너비를 조정합니다 */
+  width: 190px; /* 이미지의 너비를 조정합니다 */
   height: auto; /* 높이를 자동으로 조정하여 비율을 유지합니다 */
   margin: 5px; /* 이미지 사이의 여백을 조정합니다 */
   cursor: pointer; /* 마우스 커서를 포인터로 변경합니다 */

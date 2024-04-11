@@ -11,9 +11,9 @@ function AboutUs(){
       
       <Header/>
   
-      <Title><iframe src="https://giphy.com/embed/3oKIPgf7qGYYO0fQ7S" width="100" height="50" frameBorder="0" allowFullScreen></iframe>김.명.사 제작팀을 소개합니다.  <iframe src="https://giphy.com/embed/10a8AOSeP6Rqfu" width="100" height="40" frameBorder="0" allowFullScreen></iframe></Title>
+      <Title>김.명.사 제작팀을 소개합니다.</Title>
    
-      <hr/>
+    
 
      <Center>
      <img src="수현.png" width="340px"></img>
@@ -34,7 +34,7 @@ export const Title = styled.h1`
   }
   
   font-family: 'DOSSaemmul';
-  margin: 1em 1em;
+  margin: 40px;
   
 `; 
 

@@ -9,16 +9,16 @@ function Header() {
 
    
     <StyledHeader>
-      <Link to="/" className="navbar_item"><h3>[ 홈 ]</h3></Link>
-      <Link to="/MyMyungham" className="navbar_item"><h3>[ 명함 만들기 ]</h3></Link>
-      <Link to="/AboutUs" className="navbar_item"><h3>[ About Us ]</h3></Link>
+      <Link to="/" className="navbar_item"><h2>[ 홈 ]</h2></Link>
+      <Link to="/MyMyungham" className="navbar_item"><h2>[ 명함 만들기 ]</h2></Link>
+      <Link to="/AboutUs" className="navbar_item"><h2>[ About Us ]</h2></Link>
       </StyledHeader>
    
   );
 }
 
 const StyledHeader = styled.div`
-  height: 50px;
+  height: 70px;
   background: gainsboro;
   position: relative;
   display: flex;
@@ -26,7 +26,18 @@ const StyledHeader = styled.div`
   align-items: center;
   font-family: 'DOSSaemmul';
   color: blue;
+
+
+  /* 방문한 링크 스타일 (visited) */
+  a:visited {
+    color: blue;
+  }
+
+  a:hover {
+    color: red; /* 호버 시 색상을 빨간색(red)으로 변경합니다. */
+  }
 `;
+
 
 
 
