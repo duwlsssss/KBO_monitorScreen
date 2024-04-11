@@ -916,7 +916,7 @@ const StyledMyMyungham = styled.div`
   background: whitegrey;
   margin-top: 10px;
   position: relative;
-  font-family: 'DOSSaemmul';
+
 
 
   form {
