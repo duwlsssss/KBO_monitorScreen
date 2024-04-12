@@ -17,7 +17,7 @@ import buttonSound from "./sound/11 버튼선택음.wav";
 function MyMyungham(){
   
   const [cldData, setCldData] = useState('');
-
+  const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState(''); // useEmail 상태 추가
 
   useEffect(() => {
@@ -238,13 +238,13 @@ const uploadImageToCloudinary = async () => {
 
 
   const cloudinaryNextStep = async () => {
-
+    setLoading(true); 
       try {
         await uploadImageToCloudinary(lastCapturedImage);
         setCurrentStep(currentStep + 1);
         const audio = new Audio(buttonSound);
         audio.play();
-    
+        setLoading(false); 
 
   }catch{
     console.log('사진 업로드 에러 발생')
@@ -300,7 +300,7 @@ let FrameOptions=[];
 if (selectedFrameShape === "Rec") {
     FrameOptions = [
       {name: 'RecStar', image:'./frame/네모별.png'},
-      {name: 'RecHeart', image:'./frame/네모하트2.png'}];
+      {name: 'RecHeart', image:'./frame/네모하트프레임.png'}];
 } else if (selectedFrameShape === "Circle") {
     FrameOptions = [
     {name: 'CircleStar', image:'./frame/원별.png'},
@@ -451,7 +451,8 @@ const handleStudentNumChange = (event) => {
                     )}  
               <div className="button-container">
                     <button className="round-button yellow-button" onClick={capture}>촬영하기</button>
-                  <button className="round-button red-button"  onClick={cloudinaryNextStep}>확정!</button>
+                  <button className="round-button red-button"  onClick={cloudinaryNextStep}>{loading ? '로딩 중...' : '확정!'}</button>
+                 
              </div>
         
       
