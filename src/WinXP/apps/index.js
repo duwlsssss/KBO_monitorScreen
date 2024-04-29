@@ -40,28 +40,8 @@ export const defaultAppState = [
       height: 500
     },
     defaultOffset: {
-      x: 130,
-      y: 20
-    },
-    resizable: true,
-    minimized: false,
-    maximized: window.innerWidth < 800,
-    id: genId(),
-    zIndex: genIndex()
-  },
-  {
-    component: KimMyoungsaFinal,
-    header: {
-      title: "KimMyoungsa",
-      icon: kimIcon
-    },
-    defaultSize: {
-      width: 800,
-      height: 600
-    },
-    defaultOffset: {
       x: 140,
-      y: 70
+      y: 30
     },
     resizable: true,
     minimized: false,
@@ -80,8 +60,8 @@ export const defaultAppState = [
       height: 0
     },
     defaultOffset: {
-      x: 180,
-      y: 170
+      x: 190,
+      y: 420
     },
     resizable: false,
     minimized: false,
@@ -100,15 +80,35 @@ export const defaultAppState = [
       height: 500
     },
     defaultOffset: {
-      x: 250,
-      y: 40
+      x: 260,
+      y: 50
     },
     resizable: true,
     minimized: false,
     maximized: window.innerWidth < 800,
     id: genId(),
     zIndex: genIndex()
-  }
+  },
+  {
+    component: KimMyoungsaFinal,
+    header: {
+      title: "KimMyoungsa",
+      icon: kimIcon
+    },
+    defaultSize: {
+      width: 900,
+      height: 700
+    },
+    defaultOffset: {
+      x: 400,
+      y: 90
+    },
+    resizable: true,
+    minimized: false,
+    maximized: window.innerWidth < 800,
+    id: genId(),
+    zIndex: genIndex()
+  },
 ];
 
 export const defaultIconState = [
@@ -187,8 +187,8 @@ export const appSettings = {
       height: 600
     },
     defaultOffset: {
-      x: 140,
-      y: 70
+      x: 250,
+      y: 40
     },
     resizable: true,
     minimized: false,

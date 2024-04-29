@@ -1,12 +1,13 @@
-import React,{ useRef }  from "react";
+import React,{ useRef,useEffect, useState  }  from "react";
+import { useLocation } from 'react-router-dom';
 import Header from "./Header";
 import styled from 'styled-components';
-import { useEffect, useState } from "react"
 import api from '../api/axios'
+import useStore from './store';
 import { Title } from "./AboutUs";
 import Webcam from "react-webcam";
 import SchoolSelector from "./Selector.js/schoolSelector";
-import MbtiSelector from "./Selector.js/MbtiSelector";
+import MbtiSelector from "./Selector.js/mbtiSelector";
 import SessionSelector from "./Selector.js/sessionSelector";
 // import {Cloudinary} from "@cloudinary/url-gen"; 
 import cameraSound from "./sound/cameraShuter.mp3";
@@ -16,22 +17,26 @@ import buttonSound from "./sound/11 버튼선택음.wav";
 
 function MyMyungham(){
   
+  const {resetMBTI, resetSession,resetSchool} = useStore();
   const [cldData, setCldData] = useState('');
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState(''); // useEmail 상태 추가
+  const location = useLocation();
 
   useEffect(() => {
     // URL에서 useEmail 파라미터 값을 가져오는 로직
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(location.search);
     const userEmailParam = urlParams.get('userEmail');
-    console.log('useEmailParam',userEmailParam);//테스트 출력, 이메일값
-    setUserEmail(userEmailParam); // useEmail 상태 설정
-  
-  }, []);
+    if(userEmailParam){
+      setUserEmail(userEmailParam);
+      setEmail(userEmailParam);
+    } // useEmail 상태 설정
+  }, []);  // 컴포넌트가 마운트될 때 한 번만 실행
 
-
-
-  console.log(userEmail);
+  useEffect(()=>{
+    console.log("userEmail",userEmail);
+  },[userEmail]);
+ 
 
   const [recentData, setRecentData] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
@@ -40,12 +45,77 @@ function MyMyungham(){
   const [engName, setEngName] = useState (''); //영문 네임 
   const [major, setMajor]= useState (''); //전공 
   const [studentNum, setStudentNum]=useState(''); //학번
-  const [email, setEmail] = useState(''); //이메일
   const [ig, setIg] = useState(''); //인스타 아이디
   const [school, setSchool] = useState(''); // 학교
   const [session, setSession] = useState(''); // 세션
   const [MBTI, setMBTI] = useState(''); // MBTI
   const [moto, setMoto] = useState(''); //좌우명
+  const [email, setEmail] = useState(''); //이메일
+  const FrequencyEmails = [
+    '@naver.com',
+    '@gmail.com',
+    '@daum.net',
+    '@hanmail.net',
+    '@yahoo.com',
+    '@outlook.com',
+    '@nate.com',
+    '@kakao.com',
+  ];
+  const [emailList, setEmailList] = useState(FrequencyEmails); //추천 이메일 리스트를 확인, 이메일 리스트 상태 관리
+  const [selected, setSelected] = useState(-1); //키보드 선택
+  const [isDrobBox, setIsDropbox] = useState(false); // 드롭박스 유무
+  const inputRef = useRef(); //외부클릭 감지 확인
+
+  //외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(e.target)
+      ) {
+        setIsDropbox(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+  }, [inputRef]);
+  //이메일 값 담기 드롭박스 상태 관리
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
+    if (e.target.value.includes('@')) {
+      setIsDropbox(true);
+      setEmailList(
+        FrequencyEmails.filter((el) =>
+          el.includes(e.target.value.split('@')[1]),
+        ),
+      );
+    } else {
+      setIsDropbox(false);
+      setSelected(-1);
+    }
+  };
+  //드롭박스 클릭 선택
+  const handleDropDownClick = (first, second) => {
+    setEmail(`${first.split('@')[0]}${second}`);
+    setIsDropbox(false);
+    setSelected(-1);
+  };
+  //드롭박스 키보드로 선택
+  const handleKeyUp = (e) => {
+    if (isDrobBox) {
+      if (e.key === 'ArrowDown' && emailList.length - 1 > selected) {
+        setSelected(selected + 1);
+      }
+      if (e.key === 'ArrowUp' && selected >= 0) {
+        setSelected(selected - 1);
+      }
+      if (e.key === 'Enter' && selected >= 0) {
+        handleDropDownClick(email, emailList[selected]);
+      }
+    }
+  };
+
+
 
 //   const getCards=async()=>{
 //     const response = await api.get('/cards')
@@ -60,6 +130,13 @@ function MyMyungham(){
 
 //카드 추가
 const addCard=async(event)=>{
+
+  // console.log('Sending data:', {
+  //   name, engName, school, major, studentNum, email, session,
+  //   MBTI, ig, moto, userEmail, backgroundOption: selectedBackground,
+  //   fontOption: selectedFont, patternOption: selectedPattern,
+  //     frameShapeoption: selectedFrameShape, frameOption: selectedFrame
+  // });
   
   event.preventDefault(); //기본 제출 방지
   console.log('addCard',userEmail);
@@ -69,9 +146,7 @@ const addCard=async(event)=>{
   console.log('pattern',selectedPattern);
 
   try{
-
       const response = await api.post('/cards',{
-          
           name :name,
           engName : engName,
           school : school,
@@ -88,7 +163,6 @@ const addCard=async(event)=>{
           patternOption: selectedPattern,
           frameShapeoption: selectedFrameShape ,
           frameOption: selectedFrame
-  
       });
    
       console.log('API 응답:', response);
@@ -104,10 +178,12 @@ const addCard=async(event)=>{
           setStudentNum('');
           setEmail('');
           setIg('');
-          setSchool('');
-          setSession('');
-          setMBTI('');
           setMoto('');
+
+          //selector 초기화
+          resetMBTI();
+          resetSession(); 
+          resetSchool();
     
       } else {
           throw new Error('카드를 추가할 수 없습니다.');
@@ -184,9 +260,9 @@ const findLatestCard = (cards) => {
   };
 
 
-//리액트 웹캠 세팅 
+const [timer, setTimer] = useState(0); // 타이머 상태
+ //리액트 웹캠 세팅 
 const webcamRef = useRef(null);
-
 const [isWebcamReady, setIsWebcamReady] = useState(false);
 const [imgSrc, setImgSrc] = useState(null);
 
@@ -199,7 +275,7 @@ const setRef = (webcam) => {
 
 const [lastCapturedImage, setLastCapturedImage] = useState(null);
 
-
+//사진 촬영 함수 
 const capture = async () => {
   if (isWebcamReady) {
     const imageSrc = webcamRef.current.getScreenshot(); //현재 찍은 사진
@@ -208,6 +284,27 @@ const capture = async () => {
 
     const audio = new Audio(cameraSound);
     audio.play();
+    setTimer(0); // 촬영 후 타이머를 초기화
+  }
+};
+
+// 타이머 함수
+const handleCaptureClick = () => {
+  if (timer === 0) { // 타이머가 이미 0이면 카운트다운을 시작
+    setTimer(3); // 타이머를 3초로 설정
+
+    const countdown = setInterval(() => {
+      setTimer((prevTimer) => {
+        const nextTimer = prevTimer - 1;
+        if (nextTimer > 0) {
+          return nextTimer;
+        } else {
+          clearInterval(countdown);
+          capture(); // 타이머가 0이 되면 사진을 촬영
+          return 0;
+        }
+      });
+    }, 1000);
   }
 };
 
@@ -261,36 +358,36 @@ const [selectedFrame, setSelectedFrame] = useState(null);
 
 //카드 배경 선택
 const BackgroundOptions = [
-  { name: 'Pink', image: './bgcolor/앞33.png' },
-  { name: 'Yellow', image: './bgcolor/앞11.png' },
-  { name: 'Grey', image: './bgcolor/앞22.png' },
-  { name: 'Sky', image: './bgcolor/앞44.png' }
+  { name: 'Pink', image: '/bgcolor/앞33.png' },
+  { name: 'Yellow', image: '/bgcolor/앞11.png' },
+  { name: 'Grey', image: '/bgcolor/앞22.png' },
+  { name: 'Sky', image: '/bgcolor/앞44.png' }
 
 ];
 
 const AuroraBackgroundOptions=[
-  { name: 'PinkAurora', image: './bgdesign/앞55.png' },
-  { name: 'PurpleAurora', image: './bgdesign/앞66.png' },
-  { name: 'GreyAurora', image: './bgdesign/앞77.png' }
+  { name: 'PinkAurora', image: '/bgdesign/앞55.png' },
+  { name: 'PurpleAurora', image: '/bgdesign/앞66.png' },
+  { name: 'GreyAurora', image: '/bgdesign/앞77.png' }
 ]
 
 const CheckBackgroundOptions=[
-  { name: 'PinkCheck', image: './bgdesign/앞_체크1.png' },
-  { name: 'PurpleCheck', image: './bgdesign/앞_체크2.png' },
-  { name: 'BlueCheck', image: './bgdesign/앞_체크4.png' }
+  { name: 'PinkCheck', image: '/bgdesign/앞_체크1.png' },
+  { name: 'PurpleCheck', image: '/bgdesign/앞_체크2.png' },
+  { name: 'BlueCheck', image: '/bgdesign/앞_체크4.png' }
 ]
 
 const OtherBackgroundOptions=[
-  { name: 'BlueOther', image: './bgdesign/기타1.png' },
-  { name: 'PinkOther', image: './bgdesign/기타2.png' },
-  { name: 'GreenMilitary', image: './bgdesign/기타3.png' },
-  { name: 'SkyOther', image: './bgdesign/기타4.png' },
-  { name: 'GreenStrawberry', image: './bgdesign/기타5.png' }
+  { name: 'BlueOther', image: '/bgdesign/기타1.png' },
+  { name: 'PinkOther', image: '/bgdesign/기타2.png' },
+  { name: 'GreenMilitary', image: '/bgdesign/기타3.png' },
+  { name: 'SkyOther', image: '/bgdesign/기타4.png' },
+  { name: 'GreenStrawberry', image: '/bgdesign/기타5.png' }
 ]
 
 const FrameShapeOptions=[
-  { name: 'Rec', image: './frameShape/프레임네모.png' },
-  { name: 'Circle', image: './frameShape/프레임원1.png' },
+  { name: 'Rec', image: '/frameShape/프레임네모.png' },
+  { name: 'Circle', image: '/frameShape/프레임원1.png' },
 
 ]
 
@@ -299,80 +396,80 @@ let FrameOptions=[];
 
 if (selectedFrameShape === "Rec") {
     FrameOptions = [
-      {name: 'RecStar', image:'./frame/네모별.png'},
-      {name: 'RecHeart', image:'./frame/네모하트프레임.png'}];
+      {name: 'RecStar', image:'/frame/네모별.png'},
+      {name: 'RecHeart', image:'/frame/네모하트프레임.png'}];
 } else if (selectedFrameShape === "Circle") {
     FrameOptions = [
-    {name: 'CircleStar', image:'./frame/원별.png'},
-    {name: 'CircleHeart', image:'./frame/원하트2.png'}]; 
+    {name: 'CircleStar', image:'/frame/원별.png'},
+    {name: 'CircleHeart', image:'/frame/원하트2.png'}]; 
 }
 
 //카드 폰트 선택
 const FontOptions=[
-  { name: '1', image: './fonts/학교안심봄방학.png'},
-  { name: '2' , image: './fonts/밑미.png'},
-  { name: '3' , image: './fonts/스위트.png'},
-  { name: '4' , image: './fonts/거친둘기마요.png'},
-  { name: '5' , image: './fonts/학교안심붓펜.png'}
+  { name: '1', image: '/fonts/학교안심봄방학.png'},
+  { name: '2' , image: '/fonts/밑미.png'},
+  { name: '3' , image: '/fonts/스위트.png'},
+  { name: '4' , image: '/fonts/거친둘기마요.png'},
+  { name: '5' , image: '/fonts/학교안심붓펜.png'}
 ]
 
 //카드 패턴 선택 (뒷면)
 const PatternOptions=[ 
-  { name: 'dot', image: './pattern/흰동그라미.png'},
-  { name: 'starGrey', image: './pattern/회색별.png'},
-  { name: 'starPink', image: './pattern/핑크별.png'},
-  { name: 'starSky', image: './pattern/하늘별.png'},
-  { name: 'starGreen', image: './pattern/초록별.png'},
-  { name: 'starBlue', image: './pattern/파랑별.png'},
-  { name: 'starYellow', image: './pattern/노랑별.png'},
-  { name: 'starPurple', image: './pattern/보라별.png'},
-  { name: 'heartGrey', image: './pattern/회색하트.png'},
-  { name: 'heartPink', image: './pattern/핑크하트.png'},
-  { name: 'heartSky', image: './pattern/하늘하트.png'},
-  { name: 'heartGreen', image: './pattern/초록하트.png'},
-  { name: 'heartBlue', image: './pattern/파랑하트.png'},
-  { name: 'heartYellow', image: './pattern/노랑하트.png'},
-  { name: 'heartPurple', image: './pattern/보라하트.png'},
+  { name: 'dot', image: '/pattern/흰동그라미.png'},
+  { name: 'starGrey', image: '/pattern/회색별.png'},
+  { name: 'starPink', image: '/pattern/핑크별.png'},
+  { name: 'starSky', image: '/pattern/하늘별.png'},
+  { name: 'starGreen', image: '/pattern/초록별.png'},
+  { name: 'starBlue', image: '/pattern/파랑별.png'},
+  { name: 'starYellow', image: '/pattern/노랑별.png'},
+  { name: 'starPurple', image: '/pattern/보라별.png'},
+  { name: 'heartGrey', image: '/pattern/회색하트.png'},
+  { name: 'heartPink', image: '/pattern/핑크하트.png'},
+  { name: 'heartSky', image: '/pattern/하늘하트.png'},
+  { name: 'heartGreen', image: '/pattern/초록하트.png'},
+  { name: 'heartBlue', image: '/pattern/파랑하트.png'},
+  { name: 'heartYellow', image: '/pattern/노랑하트.png'},
+  { name: 'heartPurple', image: '/pattern/보라하트.png'},
 
 ]
 //뒷면 패턴
 const patternImages={
-  "dot": "./pattern/흰동그라미.png",
-  "starGrey": "./pattern/회색별.png",
-  "starPink": "./pattern/핑크별.png",
-  "starSky":"./pattern/하늘별.png",
-  "starGreen": "./pattern/초록별.png",
-  "starBlue":"./pattern/파랑별.png",
-  "starYellow": "./pattern/노랑별.png",
-  "starPurple":"./pattern/보라별.png",
-  "heartGrey":"./pattern/회색하트.png",
-  "heartPink":"./pattern/핑크하트.png",
-  "heartSky":"./pattern/하늘하트.png",
-  "heartGreen":"./pattern/초록하트.png",
-  "heartBlue":"./pattern/파랑하트.png",
-  "heartYellow":"./pattern/노랑하트.png",
-  "heartPurple":"./pattern/보라하트.png",
+  "dot": "/pattern/흰동그라미.png",
+  "starGrey": "/pattern/회색별.png",
+  "starPink": "/pattern/핑크별.png",
+  "starSky":"/pattern/하늘별.png",
+  "starGreen": "/pattern/초록별.png",
+  "starBlue":"/pattern/파랑별.png",
+  "starYellow": "/pattern/노랑별.png",
+  "starPurple":"/pattern/보라별.png",
+  "heartGrey":"/pattern/회색하트.png",
+  "heartPink":"/pattern/핑크하트.png",
+  "heartSky":"/pattern/하늘하트.png",
+  "heartGreen":"/pattern/초록하트.png",
+  "heartBlue":"/pattern/파랑하트.png",
+  "heartYellow":"/pattern/노랑하트.png",
+  "heartPurple":"/pattern/보라하트.png",
 
 
 }
 
 //뒷면 색깔
 const backgroundImages = {
-  "Pink": "./backgroundImage/backPink.png",
-  "Yellow": "./backgroundImage/backYellow.png",
-  "Grey": "./backgroundImage/backGrey.png",
-  "Sky": "./backgroundImage/backSky.png",
-  "GreenStrawberry":"./backgroundImage/backGreen.png",
-  "GreenMilitary": "./backgroundImage/backMilitary.png",
-  "PinkAurora" : "./backgroundImage/backPink.png",
-  "PurpleAurora" : "./backgroundImage/backPurple.png",
-  "GreyAurora" : "./backgroundImage/backGrey.png",
-  "PinkCheck" : "./backgroundImage/backPink.png",
-  "PurpleCheck" : "./backgroundImage/backPurple.png",
-  "BlueCheck" : "./backgroundImage/backBlue.png",
-  "SkyOther" : "./backgroundImage/backSky.png",
-  "PinkOther" : "./backgroundImage/backPink.png",
-  "BlueOther" : "./backgroundImage/backBlue.png"
+  "Pink": "/backgroundImage/backPink.png",
+  "Yellow": "/backgroundImage/backYellow.png",
+  "Grey": "/backgroundImage/backGrey.png",
+  "Sky": "/backgroundImage/backSky.png",
+  "GreenStrawberry":"/backgroundImage/backGreen.png",
+  "GreenMilitary": "/backgroundImage/backMilitary.png",
+  "PinkAurora" : "/backgroundImage/backPink.png",
+  "PurpleAurora" : "/backgroundImage/backPurple.png",
+  "GreyAurora" : "/backgroundImage/backGrey.png",
+  "PinkCheck" : "/backgroundImage/backPink.png",
+  "PurpleCheck" : "/backgroundImage/backPurple.png",
+  "BlueCheck" : "/backgroundImage/backBlue.png",
+  "SkyOther" : "/backgroundImage/backSky.png",
+  "PinkOther" : "/backgroundImage/backPink.png",
+  "BlueOther" : "/backgroundImage/backBlue.png"
   
 };
 
@@ -414,516 +511,290 @@ const handleStudentNumChange = (event) => {
 
 
   return(
-
-
-    <div> 
+    <> 
+    <StyledMyMyungham>
       <Header/>         
       <Title>대학생 명함 문화 주도, 김명사</Title>
-      
       {currentStep === 1 && (
         <div className="page">
-          
-          <h2>화면을 응시해주세요. 프로필 촬영이 시작됩니다.</h2>
-         
-          <br></br>
+          <div className="introduction">촬영하기를 눌러 프로필 촬영을 해주세요.</div>
           <div style={{ position: 'relative', width: '350px', height: '300px' }}>
-          <img src="https://www.pngfind.com/pngs/b/129-1294618_camera-screen-png.png" style={{ position: 'absolute', top: 0, left: 0, width: '350px', height: '350px', zIndex: 1 }}/>
-          <Webcam
-            audio={false}
-            height={210}
-            screenshotFormat="image/jpeg"
-            width={290}
-            ref={setRef} 
-            style={{ position: 'absolute', top: '130px', left: 0, zIndex: 0 }}
-          />
-          
-             
-    </div>
-      
-  
+            <img src="https://www.pngfind.com/pngs/b/129-1294618_camera-screen-png.png" style={{ position: 'absolute', top: 0, left: 0, width: '350px', height: '350px', zIndex: 1 }}/>
+            <Webcam
+              audio={false}
+              mirrored={true}
+              height={210}
+              screenshotFormat="image/jpeg"
+              width={290}
+              ref={setRef} 
+              style={{ position: 'absolute', top: '130px', left: 0, zIndex: 0 }}
+            />     
+          </div>
           {imgSrc && (
-                      <div>
-                     
-                        <img src={imgSrc} alt="Captured Image" style={{ maxWidth: '100%' , marginTop:'80px'}} />
-                        <h3>*촬영하기를 눌러 재촬영이 가능합니다.</h3>
-                      </div>
-                      
-                    )}  
-              <div className="button-container">
-                    <button className="round-button yellow-button" onClick={capture}>촬영하기</button>
-                  <button className="round-button red-button"  onClick={cloudinaryNextStep}>{loading ? '로딩 중...' : '확정!'}</button>
-                 
-             </div>
-        
-      
-
-       
+            <div>
+              <img src={imgSrc} alt="Captured Image" style={{ maxWidth: '100%', marginTop:'80px'}} />
+              <div className="subIntroduction">* 촬영하기를 눌러 재촬영이 가능합니다.</div>
+            </div>
+          )}  
+          {timer > 0 && (
+            <div className="timer">
+              <h2>{timer}</h2> 
+            </div>
+           
+          )}
+          <div className="button-container-img">
+            <button className="round-button yellow-button" onClick={handleCaptureClick}>촬영하기</button>
+            <button className="round-button red-button"  onClick={cloudinaryNextStep}>{loading ? '로딩 중...' : '확정!'}</button>
+          </div>
         </div>
-       
-
-)}
-
-{currentStep === 2&& (
+      )}
+      {currentStep === 2&& (
         <div className="page">
-              <h2>사진의 프레임 모양은 네모와 타원형 두가지로 나뉩니다. 선택해주세요 !</h2>
-              <br></br>
-              <h4>사진 모양 선택</h4>
-               <div>
-                {FrameShapeOptions.map(option => (
-           
-           <Image
-              key={option.image}
-              src={option.image}
-              onClick={() => handleFrameShapeSelection(option.name)}
-              style={{ cursor: 'pointer' }}
-              isSelected={selectedFrameShape === option.name}
-            />
-
-          ))}
-          </div> 
-          <h4>프레임 선택 </h4>
+          <div className="introduction">사진의 모양과 프레임을 선택해주세요 !</div>
+          <div className="choose">사진 모양 선택</div>
           <div>
-                {FrameOptions.map(option => (
-           
-           <Image
+            {FrameShapeOptions.map(option => (
+              <Image
+                  key={option.image}
+                  src={option.image}
+                  onClick={() => handleFrameShapeSelection(option.name)}
+                  style={{ cursor: 'pointer' }}
+                  isSelected={selectedFrameShape === option.name}
+                />
+            ))}
+          </div> 
+          <div className="choose">프레임 선택</div>
+          <div>
+            {FrameOptions.map(option => (
+          <Image
               key={option.image}
               src={option.image}
               onClick={() => handleFrameSelection(option.name)}
               style={{ cursor: 'pointer' }}
               isSelected={selectedFrame === option.name}
             />
-            
-
           ))}
           </div> 
-  <div className="button-container">
+          <div className="button-container">
             <button className="round-button green-button" onClick={backStep}>이전</button>
             <button className="round-button red-button"  onClick={nextStep}>확정!</button>
+          </div>
         </div>
-        </div>
-       
       )}
-
-
-         
-     {currentStep === 3&& (
+      {currentStep === 3&& (
         <div className="page">
-              <h2>명함 배경을 선택해보세요 O.u</h2>
-              <br></br>
-              <br></br>
-              
-              <h4>기본 단색 배경</h4>
-               <div>
-                {BackgroundOptions.map(option => (
-           
-           <Image
-              key={option.image}
-              src={option.image}
-              alt={option.name}
-              onClick={() => handleBackgroundSelection(option.name)}
-              style={{ cursor: 'pointer' }}
-              isSelected={selectedBackground === option.name}
-            />
-
+          <div className="introduction">명함 배경을 선택해보세요 O.u</div>
+          <h4>기본 단색 배경</h4>
+          <div>
+          {BackgroundOptions.map(option => (
+            <Image
+                key={option.image}
+                src={option.image}
+                alt={option.name}
+                onClick={() => handleBackgroundSelection(option.name)}
+                style={{ cursor: 'pointer' }}
+                isSelected={selectedBackground === option.name}
+              />
           ))}
           </div>
           <h4>오로라 배경</h4>
           <div>
-                {AuroraBackgroundOptions.map(option => (
-           
-           <Image
+            {AuroraBackgroundOptions.map(option => (
+            <Image
               key={option.image}
               src={option.image}
               alt={option.name}
               onClick={() => handleBackgroundSelection(option.name)}
               style={{ cursor: 'pointer' }}
-              
               isSelected={selectedBackground === option.name}
             />
-
-          ))}
+            ))}
           </div>
           <h4>체크무늬 배경</h4>
           <div>
-                {CheckBackgroundOptions.map(option => (
-           
-           <Image
-              key={option.image}
-              src={option.image}
-              alt={option.name}
-              onClick={() => handleBackgroundSelection(option.name)}
-              style={{ cursor: 'pointer' }}
-              
-              isSelected={selectedBackground === option.name}
-            />
-
-          ))}
-        
+            {CheckBackgroundOptions.map(option => (
+              <Image
+                key={option.image}
+                src={option.image}
+                alt={option.name}
+                onClick={() => handleBackgroundSelection(option.name)}
+                style={{ cursor: 'pointer' }}
+                
+                isSelected={selectedBackground === option.name}
+              />
+            ))}
           </div>
           <h4>기타 배경</h4>
           <div>
-                { OtherBackgroundOptions.map(option => (
-           
-           <Image
-              key={option.image}
-              src={option.image}
-              alt={option.name}
-              onClick={() => handleBackgroundSelection(option.name)}
-              style={{ cursor: 'pointer' }}
-              
-              isSelected={selectedBackground === option.name}
-            />
-
-          ))}
-        
-          </div>
-        
-  <div className="button-container">
-            <button className="round-button green-button" onClick={backStep}>이전</button>
-            <button className="round-button red-button"  onClick={nextStep}>확정!</button>
-        </div>
-        </div>
-       
-      )}
-
-{currentStep === 4&& (
-        <div className="page">
-              <h2>마음에 드는 명함 폰트를 선택해보세요. (~˘▾˘)~♫•*¨*•.¸¸♪</h2>
-              <br></br>
-              <br></br>
-              <br></br>
-               <div>
-                {FontOptions.map(option => (
-           
-           <Image
-              key={option.image}
-              src={option.image}
-              onClick={() => handleFontSelection(option.name)}
-              style={{ cursor: 'pointer' }}
-              isSelected={selectedFont === option.name}
-            />
-
-          ))}
-          </div> 
-  <div className="button-container">
-            <button className="round-button green-button" onClick={backStep}>이전</button>
-            <button className="round-button red-button"  onClick={nextStep}>확정!</button>
-        </div>
-        </div>
-       
-      )}
-
-
-  <>
-    {currentStep === 5&& (
-      <div className="page">
-        <h2>뒷면 패턴 선택하기</h2>
-       
-       
-        <div className="pattern-selection">
-          <div className="pattern-container">
-            <div className="selected-images">
-              <div style={{ position: 'relative', margin: 'auto', width: '200px', height: '300px' }}>
-                {/* 선택된 배경에 따라 해당하는 이미지를 표시 */}
-                {selectedBackground && (
-                  <img src={backgroundImages[selectedBackground]} alt="Selected Background" width="500px" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
-                )}
-                {/* 선택된 패턴 이미지 표시 */}
-                {selectedPattern && (
-                  <img src={patternImages[selectedPattern]} alt="Selected Pattern" width="460px"style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }} />
-                )}
-              </div>
-            </div>
-            
-            {/* 패턴 이미지 선택 */}
-            <div className="pattern-options">
-              {PatternOptions.map(option => (
-                <Image
+            { OtherBackgroundOptions.map(option => (
+              <Image
                   key={option.image}
                   src={option.image}
-                  onClick={() => handlePatternSelection(option.name)}
+                  alt={option.name}
+                  onClick={() => handleBackgroundSelection(option.name)}
                   style={{ cursor: 'pointer' }}
-                  isSelected={selectedPattern === option.name}
+                  
+                  isSelected={selectedBackground === option.name}
                 />
-              ))}
-            </div>
-          
+            ))}
           </div>
-        
-
           <div className="button-container">
             <button className="round-button green-button" onClick={backStep}>이전</button>
-            <button className="round-button red-button" onClick={nextStep}>확정!</button>
+            <button className="round-button red-button"  onClick={nextStep}>확정!</button>
           </div>
-
         </div>
-      </div>
-    )}
-  </>
-
-
-
-  
-
-  
-      
-    
-      {currentStep === 6&& (
-      <StyledMyMyungham>
-      <form>
-
-          <input type="text" value={name} name="name" onChange={(event)=>setName(event.target.value)} placeholder="이름"/><br/>
-          <input type="text" value={engName} name="engName" onChange={(event)=>setEngName(event.target.value)} placeholder="영문 이름 혹은 닉네임"/><br/>
-          <SchoolSelector onSelectSchool={(selectedSchool) => setSchool(selectedSchool)}/>
-          <input type="text" value={major} name="major" onChange={(event)=>setMajor(event.target.value)} placeholder="학과"/><br/>
-          <input type="text" value={studentNum} name ="studentNum" onChange={handleStudentNumChange} placeholder="학번"/><br/>
-          {studentNumError && <div style={{ color: 'red' }}>{studentNumError}</div>}
-          <SessionSelector onSelectSession={(selectedSession) => setSession(selectedSession)}/>
-          <MbtiSelector onSelectMBTI={(selectedMBTI) => setMBTI(selectedMBTI)}/>
-          <input type="email" name="email" placeholder="이메일을 입력하세요" value={email} onChange={(event) => {
-          setEmail(event.target.value);}}/>
-          <input type="text" name="ig" placeholder="인스타그램 아이디" value={ig} onChange={(event)=>{setIg(event.target.value)}}/> 
-          <input type="text" name="moto" placeholder="좌우명" value={moto} onChange={(event)=>{setMoto(event.target.value)}} />
-
-          <br/> 
-
-         
-      </form>
-      <div className="button-container">
-     
-      <button className="round-button green-button"onClick={backStep}>이전</button>
-      <button className="round-button red-button" onClick={addCard}>인쇄</button>
-
-      </div>
-      </StyledMyMyungham>
       )}
-
-    </div>
+      {currentStep === 4&& (
+        <div className="page">
+          <div className="introduction">마음에 드는 명함 폰트를 선택해보세요. (~˘▾˘)~♫</div>
+          <br></br>
+          <br></br>
+          <br></br>
+          <div>
+            {FontOptions.map(option => (
+              <Image
+                  key={option.image}
+                  src={option.image}
+                  onClick={() => handleFontSelection(option.name)}
+                  style={{ cursor: 'pointer' }}
+                  isSelected={selectedFont === option.name}
+                />
+            ))}
+          </div> 
+          <div className="button-container">
+              <button className="round-button green-button" onClick={backStep}>이전</button>
+              <button className="round-button red-button"  onClick={nextStep}>확정!</button>
+          </div>
+        </div>
+      )}
+      {currentStep === 5&& (
+        <div className="page">
+          <div className="introduction">뒷면 패턴 선택하기</div>
+          <div className="pattern-selection">
+            <div className="pattern-container">
+              <div className="selected-images">
+                <div style={{ position: 'relative', margin: 'auto', width: '200px', height: '300px' }}>
+                  {/* 선택된 배경에 따라 해당하는 이미지를 표시 */}
+                  {selectedBackground && (
+                    <img src={backgroundImages[selectedBackground]} alt="Selected Background" width="500px" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
+                  )}
+                  {/* 선택된 패턴 이미지 표시 */}
+                  {selectedPattern && (
+                    <img src={patternImages[selectedPattern]} alt="Selected Pattern" width="460px"style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }} />
+                  )}
+                </div>
+              </div>
+              {/* 패턴 이미지 선택 */}
+              <div className="pattern-options">
+                {PatternOptions.map(option => (
+                  <Image
+                    key={option.image}
+                    src={option.image}
+                    onClick={() => handlePatternSelection(option.name)}
+                    style={{ cursor: 'pointer' }}
+                    isSelected={selectedPattern === option.name}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="button-container">
+              <button className="round-button green-button" onClick={backStep}>이전</button>
+              <button className="round-button red-button" onClick={nextStep}>확정!</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {currentStep === 6&& (
+          <>
+            <form>
+                <input type="text" value={name} name="name" onChange={(event)=>setName(event.target.value)} placeholder="이름" autoComplete="off"/>
+                <input type="text" value={engName} name="engName" onChange={(event)=>setEngName(event.target.value)} placeholder="영문 이름 혹은 닉네임" autoComplete="off"/>
+                <SchoolSelector onSelectSchool={(selectedSchool) => setSchool(selectedSchool)}/>
+                <input type="text" value={major} name="major" onChange={(event)=>setMajor(event.target.value)} placeholder="학과" autoComplete="off"/>
+                <input type="text" value={studentNum} name ="studentNum" onChange={handleStudentNumChange} placeholder="학번" autoComplete="off"/>
+                {studentNumError && <div style={{ color: 'red' }}>{studentNumError}</div>}
+                <SessionSelector onSelectSession={(selectedSession) => setSession(selectedSession)}/>
+                <MbtiSelector onSelectMBTI={(selectedMBTI) => setMBTI(selectedMBTI)}/>
+                {/* <input type="text" name="email" placeholder="이메일을 입력하세요"  value={email} onChange={(event)=>{setEmail(event.target.value)}}/> */}
+                <div ref={inputRef}>
+                  <input
+                      type="text"
+                      name="email"
+                      placeholder="이메일"
+                      value={email}
+                      onChange={(e)=>{onChangeEmail(e)}}
+                      onKeyUp={handleKeyUp}
+                      autoComplete="off"
+                  />
+                  {isDrobBox && (
+                  <ul>
+                    {emailList.map((item, idx) => (
+                      <li
+                        key={idx}
+                        className={selected === idx ? 'selected' : ''}
+                        onMouseOver={() => setSelected(idx)}
+                        onClick={() => handleDropDownClick(email, item)}
+                      >
+                        {email.split('@')[0]}{item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                </div>
+                <input type="text" name="ig" placeholder="인스타그램 아이디" value={ig} onChange={(event)=>{setIg(event.target.value)}} autoComplete="off"/> 
+                <input type="text" name="moto" placeholder="좌우명" value={moto} onChange={(event)=>{setMoto(event.target.value)}} autoComplete="off"/>
+            </form>
+            <div className="button-container">
+              <button className="round-button green-button"onClick={backStep}>이전</button>
+              <button className="round-button red-button" onClick={addCard}>인쇄</button>
+            </div>
+          </>
+      )}
+      </StyledMyMyungham>
+    </>
   )
 }
 
 //스타일 컴포넌트
 export default styled(MyMyungham)`
-
-  height: 100%;
-  background: white;
-  padding-top: 22px;
-  position: relative;
-  font-family: 'DOSSaemmul';
   
-  .top-bars {
-    border-bottom: 1px rgb(235, 235, 235) solid;
-  }
-  .top-bar {
-    height: 44px;
-  }
-  .app-bar {
-    height: 58px;
-    margin-left: 154px;
-    position: relative;
-    width: 584px;
-  }
-  .bar-items {
-    display: flex;
-    align-items: center;
-    position: relative;
-    height: 44px;
-  }
-  .left {
-    position: absolute;
-    left: 0;
-  }
-  .right {
-    position: absolute;
-    right: 4px;
-  }
-  .logo {
-    width: 150px;
-    height: 34px;
-    padding: 4px 28px 0 30px;
-    cursor: pointer;
-  }
-  .search-bar {
-    display: flex;
-    align-items: center;
-    border-radius: 22px;
-    width: 586px;
-    height: 46px;
-    border: 1px rgb(223, 225, 229) solid;
-    padding: 5px 0 0 20px;
-    input {
-      outline: 0;
-      border: 0;
-      flex: 1;
-      width: 30px;
-      font-size: 16px;
-    }
-    img {
-      width: 24px;
-      height: 24px;
-    }
-    .icon {
-      width: 40px;
-    }
-    .icon:nth-of-type(1) {
-      cursor: pointer;
-    }
-    .icon:nth-of-type(2) {
-      fill: rgb(66, 133, 244);
-      color: rgb(66, 133, 244);
-    }
-  }
-  .functions {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding-right: 14px;
-    img {
-      margin: 8px;
-      width: 24px;
-      cursor: pointer;
-      height: 24px;
-    }
-  }
-  .tags {
-    height: 100%;
-    display: flex;
-    font-size: 13px;
-    align-items: center;
-    color: rgb(119, 119, 119);
-  }
-  .tag.active {
-    color: rgb(26, 115, 232);
-    border-bottom: 3px rgb(26, 115, 232) solid;
-    font-weight: 700;
-  }
-  .tag {
-    height: 100%;
-    cursor: pointer;
-    padding: 28px 16px 0;
-    &:hover:not(.active) {
-      color: rgb(34, 34, 34);
-    }
-  }
-
-  .content {
-    color: rgb(34, 34, 34);
-    padding: 55px 0 0 170px;
-    p {
-      margin: 16px 0;
-    }
-  }
-  #search-in-content {
-    font-weight: 700;
-  }
-  footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 83px;
-    border-top: 1px solid rgba(0, 0, 0, 0.07);
-    background-color: rgba(0, 0, 0, 0.05);
-    .upper {
-      position: relative;
-      color: rgba(0, 0, 0, 0.54);
-      width: 100%;
-      font-size: 15px;
-      padding-bottom: 2px;
-      height: 50%;
-    }
-    .lower {
-      position: relative;
-      border-top: 1px solid rgba(0, 0, 0, 0.07);
-      height: 50%;
-      color: rgb(95, 99, 104);
-      font-size: 13px;
-      width: 100%;
-      .item {
-        cursor: pointer;
-      }
-      .item:hover {
-        text-decoration: underline;
-      }
-    }
-    .footer-items {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      padding-left: 150px;
-      position: relative;
-    }
-    .left .item {
-      margin-right: 27px;
-    }
-  }
-  @media (max-width: 800px) {
-    .top-bar {
-      height: auto;
-    }
-    .bar-items.left {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      height: auto;
-      position: relative;
-    }
-    .bar-items.right {
-      display: none;
-    }
-    .search-bar {
-      margin-top: 15px;
-      width: 90%;
-      height: 40px;
-      border-radius: 3px;
-      padding: 0px 5px 0 10px;
-      .icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-      }
-    }
-    .app-bar {
-      margin: 0 15px;
-      width: calc(100% - 30px);
-      height: 40px;
-    }
-    .tags {
-      display: flex;
-      width: 100%;
-    }
-    .tags.right {
-      display: none;
-    }
-    .tag {
-      text-align: center;
-      padding: 16px 0 0 0;
-      flex: 1;
-    }
-    .content {
-      padding: 10px 40px;
-    }
-    .footer-items.left {
-      padding-left: 25px;
-    }
-    footer .left .item {
-      margin-right: 15px;
-    }
-  }
 `;
 
 const StyledMyMyungham = styled.div`
-
-
   height: 100%;
   background: whitegrey;
-  margin-top: 10px;
   position: relative;
   font-family: 'DOSSaemmul';
 
+  .introduction{
+    font-size: 2rem;
+    margin-bottom:1.5rem;
+  }
+  .subIntroduction{
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top:1rem
+    margin-bottom:-4rem;
+  }
+  .timer {
+    position: absolute;
+    top: 37%; /* 상위 요소의 가운데로부터 */
+    left: 47%; /* 왼쪽 가운데로부터 */
+    transform: translate(-50%, -50%); /* 자신의 크기의 절반만큼 좌측과 상단으로 이동 */
+    font-size: 60px;  
+    color: white;    
+    z-index: 10;
+  }
+  .choose{
+    font-size: 1rem;
+    font-weight: bold;
+    margin:1rem 0;
+  }
 
   form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;  
     max-width: 600px;
     margin: 0 auto;
     padding: 25px;
@@ -931,25 +802,26 @@ const StyledMyMyungham = styled.div`
     border-radius: 10px;
 
     input {
-      width: 100%;
+      width: 100%;          
       padding: 15px;
-      margin-bottom: 15px;
       border: 1px solid grey;
-      font-size:24px;
-    }
-    select {
-      width: 100%;
-      padding: 15px;
-      margin-bottom: 15px;
-      border: 1px solid grey;
-      font-size:24px;
-      outline: none; 
+      border-radius: 4px;
+      font-size: 24px;
     }
 
-
-  h5{
-    color:grey;
-  }
+    ul{
+      z-index: 100;
+      line-height: 1.5;
+      list-style-type: none;
+      padding-inline-start: 1em;
+    }
+    li {
+      font-size: 1.3rem;
+    }
+    .selected {
+      background-color: #FEF299;
+      color: var(--zu--m4-color);
+    }
 
   }
 `;
@@ -961,10 +833,8 @@ const Image = styled.img`
   margin: 5px; /* 이미지 사이의 여백을 조정합니다 */
   cursor: pointer; /* 마우스 커서를 포인터로 변경합니다 */
   border: 2px solid transparent; /* 기본적으로 테두리는 투명으로 설정합니다 */
-
   /* 선택된 이미지에 테두리를 추가합니다 */
   ${props => props.isSelected && `
     border-color: red; /* 선택된 이미지의 테두리 색상을 지정합니다 */
-
   `}
 `;

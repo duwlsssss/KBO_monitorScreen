@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Routes, Route,useLocation } from 'react-router-dom';
 import MyMyungham from './MyMyungham';
 import AboutUs from './AboutUs';
@@ -8,7 +8,10 @@ import NotFound from './NotFound';
 export function KimPage() {
   const location = useLocation();
   const { pathname } = location;
-  console.log(pathname);
+
+  useEffect(() => {
+    console.log(pathname);
+  }, [pathname]);
 
   return (
     <Routes>
