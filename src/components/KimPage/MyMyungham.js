@@ -6,9 +6,9 @@ import api from '../api/axios'
 import useStore from './store';
 import { Title } from "./AboutUs";
 import Webcam from "react-webcam";
-import SchoolSelector from "./Selector.js/schoolSelector";
-import MbtiSelector from "./Selector.js/mbtiSelector";
-import SessionSelector from "./Selector.js/sessionSelector";
+import SchoolSelector from "./selector/schoolSelector";
+import MbtiSelector from "./selector/mbtiSelector";
+import SessionSelector from "./selector/sessionSelector";
 // import {Cloudinary} from "@cloudinary/url-gen"; 
 import cameraSound from "./sound/cameraShuter.mp3";
 import buttonSound from "./sound/11 버튼선택음.wav";
