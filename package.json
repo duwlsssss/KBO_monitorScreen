@@ -40,9 +40,7 @@
     "lint": "eslint src"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
+   
   },
   "browserslist": [
     ">0.2%",
@@ -52,6 +50,7 @@
   ],
   "devDependencies": {
     "eslint": "^6.4.0",
+    "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-react": "^7.34.1"
   },
   "engines": {
