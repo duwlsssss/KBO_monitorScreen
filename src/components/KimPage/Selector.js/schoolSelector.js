@@ -1,4 +1,3 @@
-// SchoolSelector.js
 import React, { useState } from 'react';
 import Select from 'react-select';
 import useStore from '../store';
