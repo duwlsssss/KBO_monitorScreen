@@ -51,7 +51,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "eslint": "^6.4.0"
+    "eslint": "^6.4.0",
+    "eslint-plugin-react": "^7.34.1"
   },
   "engines": {
     "node": ">=10.16.0"
