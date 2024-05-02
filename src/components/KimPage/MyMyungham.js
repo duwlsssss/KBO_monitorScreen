@@ -146,7 +146,7 @@ const addCard=async(event)=>{
   console.log('pattern',selectedPattern);
 
   try{
-      const response = await api.get('/cards',{
+      const response = await api.post('/cards',{
           name :name,
           engName : engName,
           school : school,
@@ -308,6 +308,8 @@ const handleCaptureClick = () => {
   }
 };
 
+
+
 // const cloudinary = new Cloudinary({
 //   cloud: {
 //     cloudName: 'duvv5smtd'
@@ -357,13 +359,18 @@ const [selectedFrameShape, setSelectedFrameShape] = useState(null);
 const [selectedFrame, setSelectedFrame] = useState(null);
 
 //카드 배경 선택
+// const BackgroundOptions = [
+//   { name: 'Pink', image: '/bgcolor/앞33.png' },
+//   { name: 'Yellow', image: '/bgcolor/앞11.png' },
+//   { name: 'Grey', image: '/bgcolor/앞22.png' },
+//   { name: 'Sky', image: '/bgcolor/앞44.png' }
+// ];
 const BackgroundOptions = [
-  { name: 'Pink', image: '/bgcolor/앞33.png' },
-  { name: 'Yellow', image: '/bgcolor/앞11.png' },
-  { name: 'Grey', image: '/bgcolor/앞22.png' },
-  { name: 'Sky', image: '/bgcolor/앞44.png' }
-
-];
+    { name: 'Pink', image: '/bgcolor/앞33.webp' },
+    { name: 'Yellow', image: '/bgcolor/앞11.webp' },
+    { name: 'Grey', image: '/bgcolor/앞22.webp' },
+    { name: 'Sky', image: '/bgcolor/앞44.webp' }
+  ];
 
 const AuroraBackgroundOptions=[
   { name: 'PinkAurora', image: '/bgdesign/앞55.png' },
@@ -450,28 +457,95 @@ const patternImages={
   "heartYellow":"/pattern/노랑하트.png",
   "heartPurple":"/pattern/보라하트.png",
 
-
 }
 
 //뒷면 색깔
+// const backgroundImages = {
+//   "Pink": "/backgroundImage/backPink.png",
+//   "Yellow": "/backgroundImage/backYellow.png",
+//   "Grey": "/backgroundImage/backGrey.png",
+//   "Sky": "/backgroundImage/backSky.png",
+//   "GreenStrawberry":"/backgroundImage/backGreen.png",
+//   "GreenMilitary": "/backgroundImage/backMilitary.png",
+//   "PinkAurora" : "/backgroundImage/backPink.png",
+//   "PurpleAurora" : "/backgroundImage/backPurple.png",
+//   "GreyAurora" : "/backgroundImage/backGrey.png",
+//   "PinkCheck" : "/backgroundImage/backPink.png",
+//   "PurpleCheck" : "/backgroundImage/backPurple.png",
+//   "BlueCheck" : "/backgroundImage/backBlue.png",
+//   "SkyOther" : "/backgroundImage/backSky.png",
+//   "PinkOther" : "/backgroundImage/backPink.png",
+//   "BlueOther" : "/backgroundImage/backBlue.png"
+// };
 const backgroundImages = {
-  "Pink": "/backgroundImage/backPink.png",
-  "Yellow": "/backgroundImage/backYellow.png",
-  "Grey": "/backgroundImage/backGrey.png",
-  "Sky": "/backgroundImage/backSky.png",
-  "GreenStrawberry":"/backgroundImage/backGreen.png",
-  "GreenMilitary": "/backgroundImage/backMilitary.png",
-  "PinkAurora" : "/backgroundImage/backPink.png",
-  "PurpleAurora" : "/backgroundImage/backPurple.png",
-  "GreyAurora" : "/backgroundImage/backGrey.png",
-  "PinkCheck" : "/backgroundImage/backPink.png",
-  "PurpleCheck" : "/backgroundImage/backPurple.png",
-  "BlueCheck" : "/backgroundImage/backBlue.png",
-  "SkyOther" : "/backgroundImage/backSky.png",
-  "PinkOther" : "/backgroundImage/backPink.png",
-  "BlueOther" : "/backgroundImage/backBlue.png"
-  
+  "Pink": "/backgroundImage/backPink.webp",
+  "Yellow": "/backgroundImage/backYellow.webp",
+  "Grey": "/backgroundImage/backGrey.webp",
+  "Sky": "/backgroundImage/backSky.webp",
+  "GreenStrawberry":"/backgroundImage/backGreen.webp",
+  "GreenMilitary": "/backgroundImage/backMilitary.webp",
+  "PinkAurora" : "/backgroundImage/backPink.webp",
+  "PurpleAurora" : "/backgroundImage/backPurple.webp",
+  "GreyAurora" : "/backgroundImage/backGrey.webp",
+  "PinkCheck" : "/backgroundImage/backPink.webp",
+  "PurpleCheck" : "/backgroundImage/backPurple.webp",
+  "BlueCheck" : "/backgroundImage/backBlue.webp",
+  "SkyOther" : "/backgroundImage/backSky.webp",
+  "PinkOther" : "/backgroundImage/backPink.webp",
+  "BlueOther" : "/backgroundImage/backBlue.webp"
 };
+
+//이미지 크기가 커서 버벅거림
+const convertToWebP = (imageUrl) => {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(image, 0, 0);
+      canvas.toBlob(
+        (blob) => {
+          resolve(URL.createObjectURL(blob));
+        },
+        'image/webp',
+        1
+      );
+    };
+    image.onerror = reject;
+    image.src = imageUrl;
+  });
+};
+
+const preloadImagesAsWebP = async () => {
+  const allOptions = [
+    ...BackgroundOptions,
+    ...AuroraBackgroundOptions,
+    ...CheckBackgroundOptions,
+    ...OtherBackgroundOptions,
+    ...FrameShapeOptions,
+    ...FontOptions,
+    ...PatternOptions
+  ];
+
+  const webPImageUrls = await Promise.all(
+    allOptions.flatMap(optionGroup =>
+      optionGroup.map(async option => {
+        const webPImageUrl = await convertToWebP(option.image);
+        return { ...option, image: webPImageUrl };
+      })
+    )
+  );
+
+  // 이미지가 모두 로드되었으므로 페이지 성능이 향상될 것입니다.
+  console.log("All images preloaded as WebP format:", webPImageUrls);
+};
+
+// 페이지가 로드될 때 이미지를 미리 로드합니다.
+window.addEventListener('load', preloadImagesAsWebP);
+
+
 
 const handleBackgroundSelection = (name) => {
   setSelectedBackground(name);
