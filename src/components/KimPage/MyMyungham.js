@@ -146,7 +146,7 @@ const addCard=async(event)=>{
   console.log('pattern',selectedPattern);
 
   try{
-      const response = await api.post('/cards',{
+      const response = await api.get('/cards',{
           name :name,
           engName : engName,
           school : school,
@@ -322,7 +322,7 @@ const handleCaptureClick = () => {
 
 const uploadImageToCloudinary = async () => {
   try {
-    const response = await api.post('/images', {
+    const response = await api.get('/images', {
       image: lastCapturedImage,
       tags: [userEmail]
     });
