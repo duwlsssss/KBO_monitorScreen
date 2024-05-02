@@ -507,7 +507,28 @@ const handleStudentNumChange = (event) => {
 };
 
 
+//이미지 미리 로드해서 속도 up 
+const preloadImages = () => {
+  const allOptions = [
+    ...BackgroundOptions,
+    ...AuroraBackgroundOptions,
+    ...CheckBackgroundOptions,
+    ...OtherBackgroundOptions,
+    ...FrameShapeOptions,
+    ...FontOptions,
+    ...PatternOptions
+  ];
 
+  allOptions.forEach(optionGroup => {
+    optionGroup.forEach(option => {
+      const img = new Image();
+      img.src = option.image;
+    });
+  });
+}
+
+// 페이지가 로드될 때 이미지를 미리 로드합니다.
+window.addEventListener('load', preloadImages);
 
 
   return(

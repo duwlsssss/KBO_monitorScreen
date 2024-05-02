@@ -40,7 +40,6 @@
     "lint": "eslint src"
   },
   "eslintConfig": {
-   
   },
   "browserslist": [
     ">0.2%",
