@@ -40,6 +40,9 @@
     "lint": "eslint src"
   },
   "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
   },
   "browserslist": [
     ">0.2%",
