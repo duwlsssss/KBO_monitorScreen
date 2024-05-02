@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const host = window.location.hostname === "localhost" ? 'http://kimmyungsa.us-east-2.elasticbeanstalk.com' : '/api';
+const host = window.location.hostname === "localhost" ? 'http://kimmyungsa.us-east-2.elasticbeanstalk.com' : '/';
 
 //axios 인스턴스 생성
 const api = axios.create({
