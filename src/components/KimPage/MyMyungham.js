@@ -495,57 +495,6 @@ const backgroundImages = {
   "BlueOther" : "/backgroundImage/backBlue.webp"
 };
 
-//이미지 크기가 커서 버벅거림
-const convertToWebP = (imageUrl) => {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = image.width;
-      canvas.height = image.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(image, 0, 0);
-      canvas.toBlob(
-        (blob) => {
-          resolve(URL.createObjectURL(blob));
-        },
-        'image/webp',
-        1
-      );
-    };
-    image.onerror = reject;
-    image.src = imageUrl;
-  });
-};
-
-const preloadImagesAsWebP = async () => {
-  const allOptions = [
-    ...BackgroundOptions,
-    ...AuroraBackgroundOptions,
-    ...CheckBackgroundOptions,
-    ...OtherBackgroundOptions,
-    ...FrameShapeOptions,
-    ...FontOptions,
-    ...PatternOptions
-  ];
-
-  const webPImageUrls = await Promise.all(
-    allOptions.flatMap(optionGroup =>
-      optionGroup.map(async option => {
-        const webPImageUrl = await convertToWebP(option.image);
-        return { ...option, image: webPImageUrl };
-      })
-    )
-  );
-
-  // 이미지가 모두 로드되었으므로 페이지 성능이 향상될 것입니다.
-  console.log("All images preloaded as WebP format:", webPImageUrls);
-};
-
-// 페이지가 로드될 때 이미지를 미리 로드합니다.
-window.addEventListener('load', preloadImagesAsWebP);
-
-
 
 const handleBackgroundSelection = (name) => {
   setSelectedBackground(name);
