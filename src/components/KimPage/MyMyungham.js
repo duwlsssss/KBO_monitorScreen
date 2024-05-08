@@ -394,7 +394,7 @@ const OtherBackgroundOptions=[
 
 const FrameShapeOptions=[
   { name: 'Rec', image: '/frameShape/프레임네모.png' },
-  { name: 'Circle', image: '/frameShape/프레임원1.png' },
+  { name: 'Circle', image: '/frameShape/프레임원.png' },
 
 ]
 
@@ -404,20 +404,27 @@ let FrameOptions=[];
 if (selectedFrameShape === "Rec") {
     FrameOptions = [
       {name: 'RecStar', image:'/frame/네모별.png'},
-      {name: 'RecHeart', image:'/frame/네모하트프레임.png'}];
+      {name: 'RecHeart', image:'/frame/네모하트.png'}];
 } else if (selectedFrameShape === "Circle") {
     FrameOptions = [
     {name: 'CircleStar', image:'/frame/원별.png'},
-    {name: 'CircleHeart', image:'/frame/원하트2.png'}]; 
+    {name: 'CircleHeart', image:'/frame/원하트.png'}]; 
 }
 
 //카드 폰트 선택
+// const FontOptions=[
+//   { name: '1', image: '/fonts/학교안심봄방학.png'},
+//   { name: '2' , image: '/fonts/밑미.png'},
+//   { name: '3' , image: '/fonts/스위트.png'},
+//   { name: '4' , image: '/fonts/거친둘기마요.png'},
+//   { name: '5' , image: '/fonts/학교안심붓펜.png'}
+// ]
 const FontOptions=[
-  { name: '1', image: '/fonts/학교안심봄방학.png'},
-  { name: '2' , image: '/fonts/밑미.png'},
-  { name: '3' , image: '/fonts/스위트.png'},
-  { name: '4' , image: '/fonts/거친둘기마요.png'},
-  { name: '5' , image: '/fonts/학교안심붓펜.png'}
+  { name: '1', image: '/fonts/학교안심봄방학.webp'},
+  { name: '2' , image: '/fonts/밑미.webp'},
+  { name: '3' , image: '/fonts/스위트.webp'},
+  { name: '4' , image: '/fonts/거친둘기마요.webp'},
+  { name: '5' , image: '/fonts/학교안심붓펜.webp'}
 ]
 
 //카드 패턴 선택 (뒷면)
@@ -800,7 +807,7 @@ const StyledMyMyungham = styled.div`
   }
   .timer {
     position: absolute;
-    top: 37%; /* 상위 요소의 가운데로부터 */
+    top: 17%; /* 상위 요소의 가운데로부터 */
     left: 47%; /* 왼쪽 가운데로부터 */
     transform: translate(-50%, -50%); /* 자신의 크기의 절반만큼 좌측과 상단으로 이동 */
     font-size: 60px;  
