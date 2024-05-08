@@ -807,7 +807,7 @@ const StyledMyMyungham = styled.div`
   }
   .timer {
     position: absolute;
-    top: 17%; /* 상위 요소의 가운데로부터 */
+    top: 37%; /* 상위 요소의 가운데로부터 */
     left: 47%; /* 왼쪽 가운데로부터 */
     transform: translate(-50%, -50%); /* 자신의 크기의 절반만큼 좌측과 상단으로 이동 */
     font-size: 60px;  
