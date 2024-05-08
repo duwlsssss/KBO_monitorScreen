@@ -28,9 +28,15 @@ function MyMyungham(){
     const urlParams = new URLSearchParams(location.search);
     const userEmailParam = urlParams.get('userEmail');
     if(userEmailParam){
+      localStorage.setItem('userEmail', userEmailParam);
       setUserEmail(userEmailParam);
       setEmail(userEmailParam);
-    } // useEmail 상태 설정
+    } else { //페이지 이동해서 url에 userEmail이 없으면
+      const storedEmail = localStorage.getItem('userEmail');
+      if (storedEmail) {
+        setUserEmail(storedEmail);
+      }
+    }
   }, []);  // 컴포넌트가 마운트될 때 한 번만 실행
 
   useEffect(()=>{
