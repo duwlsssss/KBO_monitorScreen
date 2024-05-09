@@ -35,6 +35,7 @@ function MyMyungham(){
       const storedEmail = localStorage.getItem('userEmail');
       if (storedEmail) {
         setUserEmail(storedEmail);
+        setEmail(storedEmail);
       }
     }
   }, []);  // 컴포넌트가 마운트될 때 한 번만 실행
@@ -404,8 +405,8 @@ let FrameOptions=[];
 
 if (selectedFrameShape === "Rec") {
     FrameOptions = [
-      {name: 'RecStar', image:'/frame/네모별.png'},
-      {name: 'RecHeart', image:'/frame/네모하트.png'}];
+      {name: 'RecStar', image:'/frame/네모별.webp'},
+      {name: 'RecHeart', image:'/frame/네모하트.webp'}];
 } else if (selectedFrameShape === "Circle") {
     FrameOptions = [
     {name: 'CircleStar', image:'/frame/원별.webp'},
@@ -760,10 +761,8 @@ const handleStudentNumChange = (event) => {
   )
 }
 
-//스타일 컴포넌트
-export default styled(MyMyungham)`
-  
-`;
+
+export default MyMyungham;
 
 const StyledMyMyungham = styled.div`
   height: 100%;

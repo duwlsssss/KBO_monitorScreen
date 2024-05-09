@@ -6,8 +6,8 @@ import { Title } from "./AboutUs";
 
 const Footer = styled.footer`
 text-align: center;          
-
 margin-top:70px;
+font-family: 'DOSSaemmul';
 `;
 
 const MainContainer = styled.div`
@@ -50,14 +50,4 @@ function Main(){
 
 
 
-export default styled(Main)`
-  height: 100%;
-  background: white;
-  padding-top: 22px;
-  position: relative;
-  @media (max-width: 600px) {
-    
-  }
-
-  
-`;
+export default Main;

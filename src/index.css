@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'DOSSaemmul';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSSaemmul.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #root {
   height: 100%;
 }
@@ -8,7 +15,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'DOSSaemmul';
 }
 
 .page2{
@@ -16,7 +22,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'DOSSaemmul';
 }
 
 .round-button {

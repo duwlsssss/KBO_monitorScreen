@@ -3,7 +3,6 @@ import { Routes, Route,useLocation } from 'react-router-dom';
 import MyMyungham from './MyMyungham';
 import AboutUs from './AboutUs';
 import Main from './Main';
-import NotFound from './NotFound';
 
 export function KimPage() {
   const location = useLocation();
@@ -18,7 +17,6 @@ export function KimPage() {
       <Route path="/" element={<Main />} />
       <Route path="/MyMyungham" element={<MyMyungham />} />
       <Route path="/AboutUs" element={<AboutUs />} />
-      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

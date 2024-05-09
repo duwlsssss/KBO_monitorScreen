@@ -6,8 +6,6 @@ import styled from 'styled-components';
 function Header() {
   return (
 
-
-   
     <StyledHeader>
       <Link to="/" className="navbar_item"><h2>[ 홈 ]</h2></Link>
       <Link to="/MyMyungham" className="navbar_item"><h2>[ 명함 만들기 ]</h2></Link>
@@ -24,8 +22,8 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  font-family: 'DOSSaemmul';
   color: blue;
+  font-family: 'DOSSaemmul';
 
 
   /* 방문한 링크 스타일 (visited) */
@@ -39,12 +37,4 @@ const StyledHeader = styled.div`
 `;
 
 
-
-
-export default styled(Header)`
-  height: 100%;
-  background: white;
-  padding-top: 22px;
-  position: relative;
-
-`;
+export default Header;
