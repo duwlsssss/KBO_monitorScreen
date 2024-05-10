@@ -386,12 +386,11 @@ const CheckBackgroundOptions=[
 ]
 
 const OtherBackgroundOptions=[
-  { name: 'BlueOther', image: '/front/BlueOther.png' },
-  { name: 'PinkOther', image: '/front/PinkOther.png' },
+  { name: 'SkyMelt', image: '/front/BlueOther.png' },
+  { name: 'RedMelt', image: '/front/PinkOther.png' },
   { name: 'GreenMilitary', image: '/front/GreenMilitary.png' },
-  { name: 'SkyOther', image: '/front/SkyOther.png' },
   { name: 'SkyCloud', image: '/front/SkyCloud.png' },
-  { name: 'GreenStrawberry', image: '/front/GreenStrawberry.png' }
+  { name: 'GreenBerry', image: '/front/GreenStrawberry.png' }
 ]
 
 const FrameShapeOptions=[
@@ -466,7 +465,7 @@ const backgroundImages = {
   "Yellow": "/back/backYellow.png",
   "Grey": "/back/backGrey.png",
   "Sky": "/back/backSky.png",
-  "GreenStrawberry":"/back/backGreen.png",
+  "GreenBerry":"/back/backGreen.png",
   "GreenMilitary": "/back/backMilitary.png",
   "PinkAurora" : "/back/backPink.png",
   "PurpleAurora" : "/back/backPurple.png",
@@ -474,10 +473,9 @@ const backgroundImages = {
   "PinkCheck" : "/back/backPink.png",
   "PurpleCheck" : "/back/backPurple.png",
   "BlueCheck" : "/back/backBlue.png",
-  "SkyOther" : "/back/backSky.png",
+  "SkyMelt" : "/back/backSky.png",
   "SkyCloud" : "/back/backSky.png",
-  "PinkOther" : "/back/backPink.png",
-  "BlueOther" : "/back/backBlue.png"
+  "RedMelt" : "/back/backPink.png",
 };
 
 
