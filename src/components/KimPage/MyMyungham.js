@@ -17,7 +17,9 @@ import buttonSound from "./sound/11 버튼선택음.wav";
 
 function MyMyungham(){
   
-  const {resetMBTI, resetSession,resetSchool} = useStore();
+  const resetMBTI = useStore(state=>state.resetMBTI);
+  const resetSession = useStore(state=>state.resetSession);
+  const resetSchool = useStore(state=>state.resetSchool);
   const [cldData, setCldData] = useState('');
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState(''); // useEmail 상태 추가
@@ -38,12 +40,12 @@ function MyMyungham(){
         setEmail(storedEmail);
       }
     }
-  }, []);  // 컴포넌트가 마운트될 때 한 번만 실행
+  }, []);  //컴포넌트가 마운트될 때 한 번만 실행
 
+  //userEmail 확인 
   useEffect(()=>{
     console.log("userEmail",userEmail);
   },[userEmail]);
- 
 
   const [recentData, setRecentData] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
@@ -386,16 +388,16 @@ const CheckBackgroundOptions=[
 ]
 
 const OtherBackgroundOptions=[
-  { name: 'SkyMelt', image: '/front/BlueOther.png' },
-  { name: 'RedMelt', image: '/front/PinkOther.png' },
+  { name: 'SkyMelt', image: '/front/SkyMelt.png' },
+  { name: 'RedMelt', image: '/front/RedMelt.png' },
   { name: 'GreenMilitary', image: '/front/GreenMilitary.png' },
   { name: 'SkyCloud', image: '/front/SkyCloud.png' },
-  { name: 'GreenBerry', image: '/front/GreenStrawberry.png' }
+  { name: 'GreenBerry', image: '/front/GreenBerry.png' }
 ]
 
 const FrameShapeOptions=[
-  { name: 'Rec', image: '/frameShape/프레임네모.webp' },
-  { name: 'Circle', image: '/frameShape/프레임원.webp' },
+  { name: 'Rec', image: '/frameShape/프레임네모.png' },
+  { name: 'Circle', image: '/frameShape/프레임원.png' },
 
 ]
 
@@ -404,78 +406,78 @@ let FrameOptions=[];
 
 if (selectedFrameShape === "Rec") {
     FrameOptions = [
-      {name: 'RecStar', image:'/frame/네모별.webp'},
-      {name: 'RecHeart', image:'/frame/네모하트.webp'}];
+      {name: 'RecStar', image:'/frame/네모별.png'},
+      {name: 'RecHeart', image:'/frame/네모하트.png'}];
 } else if (selectedFrameShape === "Circle") {
     FrameOptions = [
-    {name: 'CircleStar', image:'/frame/원별.webp'},
-    {name: 'CircleHeart', image:'/frame/원하트.webp'}]; 
+    {name: 'CircleStar', image:'/frame/원별.png'},
+    {name: 'CircleHeart', image:'/frame/원하트.png'}]; 
 }
 
 //카드 폰트 선택
 const FontOptions=[
-  { name: '1', image: '/fonts/학교안심봄방학.webp'},
-  { name: '2' , image: '/fonts/밑미.webp'},
-  { name: '3' , image: '/fonts/스위트.webp'},
-  { name: '4' , image: '/fonts/거친둘기마요.webp'},
-  { name: '5' , image: '/fonts/학교안심붓펜.webp'}
+  { name: '1', image: '/fonts/학교안심봄방학.png'},
+  { name: '2' , image: '/fonts/밑미.png'},
+  { name: '3' , image: '/fonts/스위트.png'},
+  { name: '4' , image: '/fonts/거친둘기마요.png'},
+  { name: '5' , image: '/fonts/학교안심붓펜.png'}
 ]
 
 //카드 패턴 선택 (뒷면)
 const PatternOptions=[ 
-  { name: 'dot', image: '/pattern/흰동그라미.webp'},
-  { name: 'starGrey', image: '/pattern/회색별.webp'},
-  { name: 'starPink', image: '/pattern/핑크별.webp'},
-  { name: 'starSky', image: '/pattern/하늘별.webp'},
-  { name: 'starGreen', image: '/pattern/초록별.webp'},
-  { name: 'starBlue', image: '/pattern/파랑별.webp'},
-  { name: 'starYellow', image: '/pattern/노랑별.webp'},
-  { name: 'starPurple', image: '/pattern/보라별.webp'},
-  { name: 'heartGrey', image: '/pattern/회색하트.webp'},
-  { name: 'heartPink', image: '/pattern/핑크하트.webp'},
-  { name: 'heartSky', image: '/pattern/하늘하트.webp'},
-  { name: 'heartGreen', image: '/pattern/초록하트.webp'},
-  { name: 'heartBlue', image: '/pattern/파랑하트.webp'},
-  { name: 'heartYellow', image: '/pattern/노랑하트.webp'},
-  { name: 'heartPurple', image: '/pattern/보라하트.webp'},
+  { name: 'dot', image: '/pattern/dot.png'},
+  { name: 'starGrey', image: '/pattern/starGrey.png'},
+  { name: 'starPink', image: '/pattern/starPink.png'},
+  { name: 'starSky', image: '/pattern/starSky.png'},
+  { name: 'starGreen', image: '/pattern/starGreen.png'},
+  { name: 'starBlue', image: '/pattern/starBlue.png'},
+  { name: 'starYellow', image: '/pattern/starYellow.png'},
+  { name: 'starPurple', image: '/pattern/starPurple.png'},
+  { name: 'heartGrey', image: '/pattern/heartGrey.png'},
+  { name: 'heartPink', image: '/pattern/heartPink.png'},
+  { name: 'heartSky', image: '/pattern/heartSky.png'},
+  { name: 'heartGreen', image: '/pattern/heartGreen.png'},
+  { name: 'heartBlue', image: '/pattern/heartBlue.png'},
+  { name: 'heartYellow', image: '/pattern/heartYellow.png'},
+  { name: 'heartPurple', image: '/pattern/heartPurple.png'},
 
 ]
 //뒷면 패턴
 const patternImages={
-  "dot": "/pattern/흰동그라미.webp",
-  "starGrey": "/pattern/회색별.webp",
-  "starPink": "/pattern/핑크별.webp",
-  "starSky":"/pattern/하늘별.webp",
-  "starGreen": "/pattern/초록별.webp",
-  "starBlue":"/pattern/파랑별.webp",
-  "starYellow": "/pattern/노랑별.webp",
-  "starPurple":"/pattern/보라별.webp",
-  "heartGrey":"/pattern/회색하트.webp",
-  "heartPink":"/pattern/핑크하트.webp",
-  "heartSky":"/pattern/하늘하트.webp",
-  "heartGreen":"/pattern/초록하트.webp",
-  "heartBlue":"/pattern/파랑하트.webp",
-  "heartYellow":"/pattern/노랑하트.webp",
-  "heartPurple":"/pattern/보라하트.webp",
+  "dot": "/pattern/dot.png",
+  "starGrey": "/pattern/starGrey.png",
+  "starPink": "/pattern/starPink.png",
+  "starSky":"/pattern/starSky.png",
+  "starGreen": "/pattern/starGreen.png",
+  "starBlue":"/pattern/starBlue.png",
+  "starYellow": "/pattern/starYellow.png",
+  "starPurple":"/pattern/starPurple.png",
+  "heartGrey":"/pattern/heartGrey.png",
+  "heartPink":"/pattern/heartPink.png",
+  "heartSky":"/pattern/heartSky.png",
+  "heartGreen":"/pattern/heartGreen.png",
+  "heartBlue":"/pattern/heartBlue.png",
+  "heartYellow":"/pattern/heartYellow.png",
+  "heartPurple":"/pattern/heartPurple.png",
 }
 
 //뒷면 색깔
 const backgroundImages = {
-  "Pink": "/back/backPink.png",
-  "Yellow": "/back/backYellow.png",
-  "Grey": "/back/backGrey.png",
-  "Sky": "/back/backSky.png",
-  "GreenBerry":"/back/backGreen.png",
-  "GreenMilitary": "/back/backMilitary.png",
-  "PinkAurora" : "/back/backPink.png",
-  "PurpleAurora" : "/back/backPurple.png",
-  "GreyAurora" : "/back/backGrey.png",
-  "PinkCheck" : "/back/backPink.png",
-  "PurpleCheck" : "/back/backPurple.png",
-  "BlueCheck" : "/back/backBlue.png",
-  "SkyMelt" : "/back/backSky.png",
-  "SkyCloud" : "/back/backSky.png",
-  "RedMelt" : "/back/backPink.png",
+  "Pink": "/back/Pink.png",
+  "Yellow": "/back/Yellow.png",
+  "Grey": "/back/Grey.png",
+  "Sky": "/back/Sky.png",
+  "GreenBerry":"/back/GreenB.png",
+  "GreenMilitary": "/back/GreenM.png",
+  "PinkAurora" : "/back/Pink.png",
+  "PurpleAurora" : "/back/PurpleA.png",
+  "GreyAurora" : "/back/GreyA.png",
+  "PinkCheck" : "/back/Pink.png",
+  "PurpleCheck" : "/back/PurpleC.png",
+  "BlueCheck" : "/back/Blue.png",
+  "SkyMelt" : "/back/SkyM.png",
+  "SkyCloud" : "/back/SkyC.png",
+  "RedMelt" : "/back/Pink.png",
 };
 
 
@@ -511,7 +513,6 @@ const handleStudentNumChange = (event) => {
   }
   setStudentNum(value); // 입력 값 설정
 };
-
 
 
 

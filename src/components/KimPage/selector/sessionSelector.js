@@ -27,7 +27,10 @@ const SessionSelector = ({ onSelectSession }) => {
   ];
 
   const options = sessions.map(session => ({ value: session, label: session }));
-  const {selectedSession, customSession, setSelectedSession, setCustomSession } = useStore();
+  const selectedSession= useStore(state=>state.selectedSession);
+  const customSession= useStore(state=>state.customSession);
+  const setSelectedSession= useStore(state=>state.setSelectedSession);
+  const setCustomSession = useStore(state=>state.setCustomSession);
 
   const handleChange = selectedOption => {
     setSelectedSession(selectedOption);
@@ -106,8 +109,6 @@ const SessionSelector = ({ onSelectSession }) => {
 //           </option>
 //         ))}
 //       </select>
-
-    
 //     </div>
 //   );
 // };
