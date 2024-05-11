@@ -12,8 +12,8 @@ const MbtiSelector = ({ onSelectMBTI }) => {
   ];
 
   const options = mbtiTypes.map(mbti => ({ value: mbti, label: mbti }));
-  const selectedMBTI = useStore(state.selectedMBTI);
-  const setSelectedMBTI = useStore(state.setSelectedMBTI);
+  const selectedMBTI = useStore(state=>state.selectedMBTI);
+  const setSelectedMBTI = useStore(state=>state.setSelectedMBTI);
 
   const handleChange = selectedOption => {
     setSelectedMBTI(selectedOption);  // Zustand 스토어의 상태도 업데이트

@@ -681,9 +681,9 @@ const handleStudentNumChange = (event) => {
               <div className="selected-images">
                 <div style={{ position: 'relative', margin: 'auto', width: '200px', height: '300px' }}>
                   {/* 선택된 배경에 따라 해당하는 이미지를 표시 */}
-                  {selectedBackground && (
+                  {selectedBackground ? (
                     <img src={backgroundImages[selectedBackground]} alt="Selected Background" width="500px" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
-                  )}
+                  ):<img src='/back/GreyA.png' alt="default Background" width="500px" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />}
                   {/* 선택된 패턴 이미지 표시 */}
                   {selectedPattern && (
                     <img src={patternImages[selectedPattern]} alt="Selected Pattern" width="460px"style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }} />
