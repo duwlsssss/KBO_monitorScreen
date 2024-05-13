@@ -333,7 +333,7 @@ const handleCaptureClick = () => {
 
 const uploadImageToCloudinary = async () => {
   try {
-    const response = await api.get('/images', {
+    const response = await api.post('/images', {
       image: lastCapturedImage,
       tags: [userEmail]
     });
@@ -366,6 +366,7 @@ const [selectedFont, setSelectedFont] = useState(null);
 const [selectedPattern, setSelectedPattern] = useState(null);
 const [selectedFrameShape, setSelectedFrameShape] = useState(null);
 const [selectedFrame, setSelectedFrame] = useState(null);
+
 
 //카드 배경 선택
 const BackgroundOptions = [

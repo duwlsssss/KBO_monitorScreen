@@ -80,7 +80,7 @@ const SchoolSelector = ({ onSelectSchool }) => {
         value={selectedSchool}
         options={groupedOptions}
         onChange={handleChange}
-        placeholder="-- 대 선택 --"
+        placeholder="-- 대학교 선택 --"
         isSearchable={true}
         styles={customStyles}
         aria-label="분야 선택"
