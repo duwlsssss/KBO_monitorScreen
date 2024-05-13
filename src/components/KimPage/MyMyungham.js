@@ -330,7 +330,6 @@ const handleCaptureClick = () => {
 
 
 
-
 const uploadImageToCloudinary = async () => {
   try {
     const response = await api.post('/images', {
@@ -344,8 +343,7 @@ const uploadImageToCloudinary = async () => {
   }
 };
 
-
-  const cloudinaryNextStep = async () => {
+const cloudinaryNextStep = async () => {
     setLoading(true); 
       try {
         await uploadImageToCloudinary(lastCapturedImage);
