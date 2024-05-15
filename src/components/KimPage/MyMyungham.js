@@ -368,35 +368,35 @@ const [selectedFrame, setSelectedFrame] = useState(null);
 
 //카드 배경 선택
 const BackgroundOptions = [
-    { name: 'Pink', image: '/front/Pink.png' },
-    { name: 'Yellow', image: '/front/Yellow.png' },
-    { name: 'Grey', image: '/front/Grey.png' },
-    { name: 'Sky', image: '/front/Sky.png' }
+    { name: 'Pink', image: '/front/Pink.webp' },
+    { name: 'Yellow', image: '/front/Yellow.webp' },
+    { name: 'Grey', image: '/front/Grey.webp' },
+    { name: 'Sky', image: '/front/Sky.webp' }
   ];
 
 const AuroraBackgroundOptions=[
-  { name: 'PinkAurora', image: '/front/PinkAurora.png' },
-  { name: 'PurpleAurora', image: '/front/PurpleAurora.png' },
-  { name: 'GreyAurora', image: '/front/GreyAurora.png' }
+  { name: 'PinkAurora', image: '/front/PinkAurora.webp' },
+  { name: 'PurpleAurora', image: '/front/PurpleAurora.webp' },
+  { name: 'GreyAurora', image: '/front/GreyAurora.webp' }
 ]
 
 const CheckBackgroundOptions=[
-  { name: 'PinkCheck', image: '/front/PinkCheck.png' },
-  { name: 'PurpleCheck', image: '/front/PurpleCheck.png' },
-  { name: 'BlueCheck', image: '/front/BlueCheck.png' }
+  { name: 'PinkCheck', image: '/front/PinkCheck.webp' },
+  { name: 'PurpleCheck', image: '/front/PurpleCheck.webp' },
+  { name: 'BlueCheck', image: '/front/BlueCheck.webp' }
 ]
 
 const OtherBackgroundOptions=[
-  { name: 'SkyMelt', image: '/front/SkyMelt.png' },
-  { name: 'RedMelt', image: '/front/RedMelt.png' },
-  { name: 'GreenMilitary', image: '/front/GreenMilitary.png' },
-  { name: 'SkyCloud', image: '/front/SkyCloud.png' },
-  { name: 'GreenBerry', image: '/front/GreenBerry.png' }
+  { name: 'SkyMelt', image: '/front/SkyMelt.webp' },
+  { name: 'RedMelt', image: '/front/RedMelt.webp' },
+  { name: 'GreenMilitary', image: '/front/GreenMilitary.webp' },
+  { name: 'SkyCloud', image: '/front/SkyCloud.webp' },
+  { name: 'GreenBerry', image: '/front/GreenBerry.webp' }
 ]
 
 const FrameShapeOptions=[
-  { name: 'Rec', image: '/frameShape/프레임네모.png' },
-  { name: 'Circle', image: '/frameShape/프레임원.png' },
+  { name: 'Rec', image: '/frameShape/프레임네모.webp' },
+  { name: 'Circle', image: '/frameShape/프레임원.webp' },
 
 ]
 
@@ -405,78 +405,78 @@ let FrameOptions=[];
 
 if (selectedFrameShape === "Rec") {
     FrameOptions = [
-      {name: 'RecStar', image:'/frame/네모별.png'},
-      {name: 'RecHeart', image:'/frame/네모하트.png'}];
+      {name: 'RecStar', image:'/frame/네모별.webp'},
+      {name: 'RecHeart', image:'/frame/네모하트.webp'}];
 } else if (selectedFrameShape === "Circle") {
     FrameOptions = [
-    {name: 'CircleStar', image:'/frame/원별.png'},
-    {name: 'CircleHeart', image:'/frame/원하트.png'}]; 
+    {name: 'CircleStar', image:'/frame/원별.webp'},
+    {name: 'CircleHeart', image:'/frame/원하트.webp'}]; 
 }
 
 //카드 폰트 선택
 const FontOptions=[
-  { name: '1', image: '/fonts/학교안심봄방학.png'},
-  { name: '2' , image: '/fonts/밑미.png'},
-  { name: '3' , image: '/fonts/스위트.png'},
-  { name: '4' , image: '/fonts/거친둘기마요.png'},
-  { name: '5' , image: '/fonts/학교안심붓펜.png'}
+  { name: '1', image: '/fonts/학교안심봄방학.webp'},
+  { name: '2' , image: '/fonts/밑미.webp'},
+  { name: '3' , image: '/fonts/스위트.webp'},
+  { name: '4' , image: '/fonts/거친둘기마요.webp'},
+  { name: '5' , image: '/fonts/학교안심붓펜.webp'}
 ]
 
 //카드 패턴 선택 (뒷면)
 const PatternOptions=[ 
-  { name: 'dot', image: '/pattern/dot.png'},
-  { name: 'starGrey', image: '/pattern/starGrey.png'},
-  { name: 'starPink', image: '/pattern/starPink.png'},
-  { name: 'starSky', image: '/pattern/starSky.png'},
-  { name: 'starGreen', image: '/pattern/starGreen.png'},
-  { name: 'starBlue', image: '/pattern/starBlue.png'},
-  { name: 'starYellow', image: '/pattern/starYellow.png'},
-  { name: 'starPurple', image: '/pattern/starPurple.png'},
-  { name: 'heartGrey', image: '/pattern/heartGrey.png'},
-  { name: 'heartPink', image: '/pattern/heartPink.png'},
-  { name: 'heartSky', image: '/pattern/heartSky.png'},
-  { name: 'heartGreen', image: '/pattern/heartGreen.png'},
-  { name: 'heartBlue', image: '/pattern/heartBlue.png'},
-  { name: 'heartYellow', image: '/pattern/heartYellow.png'},
-  { name: 'heartPurple', image: '/pattern/heartPurple.png'},
+  { name: 'dot', image: '/pattern/dot.webp'},
+  { name: 'starGrey', image: '/pattern/starGrey.webp'},
+  { name: 'starPink', image: '/pattern/starPink.webp'},
+  { name: 'starSky', image: '/pattern/starSky.webp'},
+  { name: 'starGreen', image: '/pattern/starGreen.webp'},
+  { name: 'starBlue', image: '/pattern/starBlue.webp'},
+  { name: 'starYellow', image: '/pattern/starYellow.webp'},
+  { name: 'starPurple', image: '/pattern/starPurple.webp'},
+  { name: 'heartGrey', image: '/pattern/heartGrey.webp'},
+  { name: 'heartPink', image: '/pattern/heartPink.webp'},
+  { name: 'heartSky', image: '/pattern/heartSky.webp'},
+  { name: 'heartGreen', image: '/pattern/heartGreen.webp'},
+  { name: 'heartBlue', image: '/pattern/heartBlue.webp'},
+  { name: 'heartYellow', image: '/pattern/heartYellow.webp'},
+  { name: 'heartPurple', image: '/pattern/heartPurple.webp'},
 
 ]
 //뒷면 패턴
 const patternImages={
-  "dot": "/pattern/dot.png",
-  "starGrey": "/pattern/starGrey.png",
-  "starPink": "/pattern/starPink.png",
-  "starSky":"/pattern/starSky.png",
-  "starGreen": "/pattern/starGreen.png",
-  "starBlue":"/pattern/starBlue.png",
-  "starYellow": "/pattern/starYellow.png",
-  "starPurple":"/pattern/starPurple.png",
-  "heartGrey":"/pattern/heartGrey.png",
-  "heartPink":"/pattern/heartPink.png",
-  "heartSky":"/pattern/heartSky.png",
-  "heartGreen":"/pattern/heartGreen.png",
-  "heartBlue":"/pattern/heartBlue.png",
-  "heartYellow":"/pattern/heartYellow.png",
-  "heartPurple":"/pattern/heartPurple.png",
+  "dot": "/pattern/dot.webp",
+  "starGrey": "/pattern/starGrey.webp",
+  "starPink": "/pattern/starPink.webp",
+  "starSky":"/pattern/starSky.webp",
+  "starGreen": "/pattern/starGreen.webp",
+  "starBlue":"/pattern/starBlue.webp",
+  "starYellow": "/pattern/starYellow.webp",
+  "starPurple":"/pattern/starPurple.webp",
+  "heartGrey":"/pattern/heartGrey.webp",
+  "heartPink":"/pattern/heartPink.webp",
+  "heartSky":"/pattern/heartSky.webp",
+  "heartGreen":"/pattern/heartGreen.webp",
+  "heartBlue":"/pattern/heartBlue.webp",
+  "heartYellow":"/pattern/heartYellow.webp",
+  "heartPurple":"/pattern/heartPurple.webp",
 }
 
 //뒷면 색깔
 const backgroundImages = {
-  "Pink": "/back/Pink.png",
-  "Yellow": "/back/Yellow.png",
-  "Grey": "/back/Grey.png",
-  "Sky": "/back/Sky.png",
-  "GreenBerry":"/back/GreenB.png",
-  "GreenMilitary": "/back/GreenM.png",
-  "PinkAurora" : "/back/Pink.png",
-  "PurpleAurora" : "/back/PurpleA.png",
-  "GreyAurora" : "/back/GreyA.png",
-  "PinkCheck" : "/back/Pink.png",
-  "PurpleCheck" : "/back/PurpleC.png",
-  "BlueCheck" : "/back/Blue.png",
-  "SkyMelt" : "/back/SkyM.png",
-  "SkyCloud" : "/back/SkyC.png",
-  "RedMelt" : "/back/Pink.png",
+  "Pink": "/back/Pink.webp",
+  "Yellow": "/back/Yellow.webp",
+  "Grey": "/back/Grey.webp",
+  "Sky": "/back/Sky.webp",
+  "GreenBerry":"/back/GreenB.webp",
+  "GreenMilitary": "/back/GreenM.webp",
+  "PinkAurora" : "/back/Pink.webp",
+  "PurpleAurora" : "/back/PurpleA.webp",
+  "GreyAurora" : "/back/GreyA.webp",
+  "PinkCheck" : "/back/Pink.webp",
+  "PurpleCheck" : "/back/PurpleC.webp",
+  "BlueCheck" : "/back/Blue.webp",
+  "SkyMelt" : "/back/SkyM.webp",
+  "SkyCloud" : "/back/SkyC.webp",
+  "RedMelt" : "/back/Pink.webp",
 };
 
 
@@ -682,7 +682,7 @@ const handleStudentNumChange = (event) => {
                   {/* 선택된 배경에 따라 해당하는 이미지를 표시 */}
                   {selectedBackground ? (
                     <img src={backgroundImages[selectedBackground]} alt="Selected Background" width="500px" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />
-                  ):<img src='/back/GreyA.png' alt="default Background" width="500px" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />}
+                  ):<img src='/back/GreyA.webp' alt="default Background" width="500px" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }} />}
                   {/* 선택된 패턴 이미지 표시 */}
                   {selectedPattern && (
                     <img src={patternImages[selectedPattern]} alt="Selected Pattern" width="460px"style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }} />
