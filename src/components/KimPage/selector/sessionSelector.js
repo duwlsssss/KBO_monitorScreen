@@ -23,7 +23,7 @@ const SessionSelector = ({ onSelectSession }) => {
     '데이터베이스 관리자',
     'AI/머신러닝 엔지니어',
     '꿈은 없고요, 그냥 놀고 싶습니다.',
-    '기타'
+    '내가 입력하기'
   ];
 
   const options = sessions.map(session => ({ value: session, label: session }));
@@ -35,8 +35,8 @@ const SessionSelector = ({ onSelectSession }) => {
   const handleChange = selectedOption => {
     setSelectedSession(selectedOption);
     onSelectSession(selectedOption.value);
-    // "기타" 선택 시 customSession 초기화
-    if (selectedOption.value === '기타') {
+    // "내가 입력하기" 선택 시 customSession 초기화
+    if (selectedOption.value === '내가 입력하기') {
       setCustomSession('');
     }
   };
@@ -76,7 +76,7 @@ const SessionSelector = ({ onSelectSession }) => {
         styles={customStyles}
         aria-label="분야 선택"
       />
-       {selectedSession && selectedSession.value === '기타' && (
+       {selectedSession && selectedSession.value === '내가 입력하기' && (
         <input
           type="text"
           placeholder="직접 입력해주세요"

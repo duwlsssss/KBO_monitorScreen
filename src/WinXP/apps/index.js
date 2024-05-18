@@ -96,11 +96,11 @@ export const defaultAppState = [
       icon: kimIcon
     },
     defaultSize: {
-      width: 900,
+      width: 1000,
       height: 700
     },
     defaultOffset: {
-      x: 400,
+      x: 250,
       y: 90
     },
     resizable: true,
@@ -187,7 +187,7 @@ export const appSettings = {
       height: 600
     },
     defaultOffset: {
-      x: 250,
+      x: 200,
       y: 40
     },
     resizable: true,
