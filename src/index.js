@@ -12,7 +12,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 serviceWorker.unregister();
 
 if (module.hot && !window.frameElement) {
-  console.log('HMR enabled'); //HMR이 정상 작동 중이면
+  // console.log('HMR enabled'); 
   module.hot.accept('./App', () => {
     const NextApp = require('./App').default;
     ReactDOM.render(<NextApp />, document.getElementById('root'));

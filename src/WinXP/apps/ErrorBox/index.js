@@ -17,7 +17,7 @@ function Error({ onClose, message = "오류가 발생했습니다 !" }) {
     try {
       new Audio(errorSoundSrc).play();
     } catch (e) {
-      console.log(e);
+      console.error('소리 출력 중 오류 발생', error);
     }
   }, []);
   return (

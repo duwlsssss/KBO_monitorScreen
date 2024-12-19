@@ -148,11 +148,11 @@ const addCard=async(event)=>{
   // });
   
   event.preventDefault(); //기본 제출 방지
-  console.log('addCard',userEmail);
-  console.log('color',selectedBackground);//pink
-  console.log(typeof selectedBackground); //string
-  console.log('font',selectedFont);//1~5
-  console.log('pattern',selectedPattern);
+  // console.log('addCard',userEmail);
+  // console.log('color',selectedBackground);//pink
+  // console.log(typeof selectedBackground); //string
+  // console.log('font',selectedFont);//1~5
+  // console.log('pattern',selectedPattern);
 
   try{
       const response = await api.post('/cards',{
@@ -174,12 +174,12 @@ const addCard=async(event)=>{
           frameOption: selectedFrame
       });
    
-      console.log('API 응답:', response);
+      // console.log('API 응답:', response);
       const { status } = response;
 
   //입력 후 input 값 초기화
       if (status === 200) {
-          console.log('성공');
+          // console.log('성공');
         
           setName('');
           setEngName('');
@@ -224,7 +224,7 @@ const getLatestData = async () => {
 
     // 모든 카드 중에서 최근에 저장된 카드를 찾기
     const latestCard = findLatestCard(allCards); 
-    console.log('최근 카드:',latestCard)
+    // console.log('최근 카드:',latestCard)
 
     // 최근에 저장된 카드 반환
     return latestCard;
@@ -353,7 +353,7 @@ const cloudinaryNextStep = async () => {
         setLoading(false); 
 
   }catch{
-    console.log('사진 업로드 에러 발생')
+    console.error('사진 업로드 에러 발생', error);
   }
 };
 
