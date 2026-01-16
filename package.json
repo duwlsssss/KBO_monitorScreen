@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "author": "joy <rladuwls0814@gmail.com>",
-  "homepage": "https://kims.com",
+  "homepage": "https://kbo-monitor-screen.vercel.app",
   "dependencies": {
     "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.19.0",
